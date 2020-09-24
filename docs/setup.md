@@ -23,3 +23,8 @@ electrónico y el nombre han sido añadido a git.
 ![](images/config.png)
 
 Esta dirección de correo es la que figura en mi cuenta de github como asociada.
+
+Por último en el repositorio de
+[Bukhgalter](https://github.com/yabirgb/bukhgalter) se puede encontrar un arhivo
+`.gitignore` que contiene elementos a evitar por git especificos para `Rust`
+como la carpeta para `targets` o archivos generados.

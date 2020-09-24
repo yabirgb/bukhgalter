@@ -12,12 +12,19 @@ presupuesto disponible.
 
 ## Herramientas
 
-En la [documentación](docs/herramientas.md) se puede leer una argumentación de
-por qué se ha elegido cada herramienta. Nos limitamos a listar las herramientas
-en esta sección.
-
 - Como **lenguaje de programación para el proyecto** se ha elegido
   [Rust](https://www.rust-lang.org/).
+
+## Documentación
+
+A continuación se lista información de que se puede encontrar en la documentación.
+
+- En [el archivo de herramientas](docs/herramientas.md) se puede leer una
+  argumentación de por qué se ha elegido cada herramienta que se ha listado con anterioridad.
+
+- En [el arhivo de setup](docs/setup.md) se encuentran detalles sobre como se ha
+  configurado git.
+
 
 ## Autor
 
