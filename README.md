@@ -18,6 +18,8 @@ presupuesto disponible.
 ## Documentación
 
 A continuación se lista información de que se puede encontrar en la documentación.
+Una versión web de la documentación se encuentra en la 
+[página web del proyecto](https://yabirgb.github.io/bukhgalter/) en GitHub-Pages.
 
 - En [el archivo de herramientas](docs/herramientas.md) se puede leer una
   argumentación de por qué se ha elegido cada herramienta que se ha listado con anterioridad.
