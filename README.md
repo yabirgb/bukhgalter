@@ -17,7 +17,7 @@ presupuesto disponible.
 
 ## Documentación
 
-A continuación se lista información de que se puede encontrar en la documentación.
+A continuación se lista información de que se puede encontrar en la [documentación](docs).
 Una versión web de la documentación se encuentra en la 
 [página web del proyecto](https://yabirgb.github.io/bukhgalter/) en GitHub-Pages.
 
@@ -26,6 +26,8 @@ Una versión web de la documentación se encuentra en la
 
 - En [el arhivo de setup](docs/setup.md) se encuentran detalles sobre como se ha
   configurado git.
+
+- [Historias de Usuario](docs/HU.md) que describen los requisitos del proyecto.
 
 
 ## Autor
