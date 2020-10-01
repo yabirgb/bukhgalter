@@ -11,6 +11,6 @@ struct Item{
 }
 
 struct Account{
-    items: Vec[Item],
-    debtors: Vec[Debtor]
+    items: Vec<Item>,
+    debtors: Vec<Debtor>
 }
