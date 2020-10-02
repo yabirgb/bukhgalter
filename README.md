@@ -45,6 +45,8 @@ Una versión web de la documentación se encuentra en la
 
 - [Historias de Usuario](docs/HU.md) que describen los requisitos del proyecto.
 
+- [Variables de entorno usadas](docs/env.md)
+
 
 ## Autor
 
