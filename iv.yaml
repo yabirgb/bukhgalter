@@ -1,1 +1,1 @@
-entidad: src/models.rs
+entidad: src/db/models.rs

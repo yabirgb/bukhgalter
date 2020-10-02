@@ -1,39 +1,12 @@
-use serde::{Serialize, Deserialize};
 use mongodb::bson::{Document, document::ValueAccessError, Bson, doc};
 use mongodb::{options::ClientOptions, Client, Collection};
 
-mod errors;
-use errors::Error::*;
+use super::errors::Error::*;
+use super::errors;
+use super::models::{Debtor, ID, NAME, PAID_AMOUNT, FRACTION, PAID};
 
 const DB_NAME: &str = "IVDB";
 const COLL: &str = "debtors";
-
-const ID: &str = "_id";
-const NAME: &str = "name";
-const PAID_AMOUNT: &str = "paid_amount";
-const FRACTION: &str = "fraction";
-const PAID: &str = "paid";
-
-#[derive(Serialize, Deserialize, Debug)]
-struct Debtor{
-    id: String,
-    name: String,
-    paid_amount: f64,
-    fraction: f64,
-    paid: bool
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct Item{
-    price: f32,
-    date: u32,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct Account{
-    items: Vec<Item>,
-    debtors: Vec<Debtor>
-}
 
 #[derive(Clone, Debug)]
 pub struct DB {
@@ -43,8 +16,10 @@ pub struct DB {
 impl DB{
 
     pub async fn init() -> Result<Self, errors::Error> {
-        let mut client_options = ClientOptions::parse("mongodb://127.0.0.1:27017").await?;
-        client_options.app_name = Some("booky".to_string());
+        let uri = std::env::var("MONGODB_URI").expect("no URI given!");
+
+        let mut client_options:ClientOptions = ClientOptions::parse(&uri).await?;
+        client_options.app_name = Some("bukhgalter".to_string());
 
         Ok(Self {
             client: Client::with_options(client_options)?,
@@ -56,12 +31,8 @@ impl DB{
     }
 
     pub async fn create_debtor(&self, entry: &Debtor) -> Result<(),errors::Error> {
-        let doc = doc! {
-            NAME: entry.name.clone(),
-            PAID_AMOUNT: entry.paid_amount,
-            PAID: entry.paid,
-            FRACTION: entry.fraction,
-        };
+        
+        let doc = entry.to_doc();
 
         self.get_collection()
             .insert_one(doc, None)
