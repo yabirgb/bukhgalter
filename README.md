@@ -15,6 +15,22 @@ presupuesto disponible.
 - Como **lenguaje de programación para el proyecto** se ha elegido
   [Rust](https://www.rust-lang.org/).
 
+## Iniciar el proyecto
+
+Es necesario tener rust instalado junto a `Cargo`.
+
+Para compilar el proyecto usar
+
+    cargo build
+
+Para ejecutar el servicio usar
+
+    cargo run
+
+Para compilar en modo de producción
+
+    cargo build --release
+
 ## Documentación
 
 A continuación se lista información de que se puede encontrar en la [documentación](docs).
