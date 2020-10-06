@@ -3,7 +3,7 @@ use mongodb::{options::ClientOptions, Client, Collection};
 
 use super::errors::Error::*;
 use super::errors;
-use super::models::{Debtor, ID, NAME, PAID_AMOUNT, FRACTION, PAID};
+use super::models::{Item, Debtor, ID, NAME, PAID_AMOUNT, FRACTION, PAID};
 
 const DB_NAME: &str = "IVDB";
 const COLL: &str = "debtors";
