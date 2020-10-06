@@ -17,19 +17,23 @@ presupuesto disponible.
 
 ## Iniciar el proyecto
 
-Es necesario tener rust instalado junto a `Cargo`.
+Es necesario tener `Rust` instalado junto a `Cargo` y `make`.
 
-Para compilar el proyecto usar
+Para instalar las dependencias y compilar el proyecto usar
 
-    cargo build
+    make build 
+
+Para ejecutar los tests
+
+    make test
 
 Para ejecutar el servicio usar
 
-    cargo run
+    make run
 
-Para compilar en modo de producción
+Para instalar las dependencias y compilar en modo de producción
 
-    cargo build --release
+    make release
 
 ## Documentación
 
