@@ -58,5 +58,20 @@ impl DB{
         };
         Ok(debtor)
     }
+
+    // Pay a whole item in teh account
+    fn pay_item(&self, item_id: u32){}
+
+    // Add a debtor to an account
+    fn add_debtor(&self, account_id: u32){}
+
+    // Pay a fraction of the account
+    fn pay_fraction(&self, account_id: u32, fraction: f32){}
+
+    // Add an item to an account
+    fn add_item_to_account(&self, account_id: u32, price:f32){}
+
+    // Add debtor to an account
+    fn create_account(&self, items: Vec<Item>, debtors:Vec<Debtor>){}
 }
 
