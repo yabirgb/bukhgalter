@@ -11,7 +11,7 @@ use db::{models, db::DB};
 async fn main() -> Result<(), Box<dyn Error>> {
     println!("Hello, world!");
 
-    let db = DB::init().await?;
+    let db = DB::init("MONGODB_URI".to_string()).await?;
 
     // List the names of the databases in that deployment.
     for db_name in db.client.list_database_names(None, None).await? {

@@ -15,8 +15,8 @@ pub struct DB {
 
 impl DB{
 
-    pub async fn init() -> Result<Self, errors::Error> {
-        let uri = std::env::var("MONGODB_URI").expect("no URI given!");
+    pub async fn init(var: String) -> Result<Self, errors::Error> {
+        let uri = std::env::var(var).expect("no URI given!");
 
         let mut client_options:ClientOptions = ClientOptions::parse(&uri).await?;
         client_options.app_name = Some("bukhgalter".to_string());
