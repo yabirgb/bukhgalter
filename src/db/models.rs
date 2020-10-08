@@ -23,6 +23,7 @@ pub const PAID: &str = "paid";
 pub struct Item{
     pub price: f32,
     pub date: u32,
+    pub name: String
 }
 
 pub const PRICE: &str = "price";
@@ -48,13 +49,30 @@ impl Debtor{
     }
 
     pub fn to_debtor(doc: &Document){}
+
+    pub fn update_paid_amount(&mut self, new_paid_amount:f64){
+        self.paid_amount = new_paid_amount;
+    }
+
+    pub fn rename_debtor(&mut self, new_name: String){
+        self.name = new_name.clone();
+    }
+
+    pub fn set_fraction(&mut self, new_fraction: f64){
+        self.fraction = new_fraction;
+    }
+
+    pub fn toggle_paid(&mut self){
+        self.paid = !self.paid;
+    }
 }
 
 impl Item{
     pub fn to_doc(&self) -> Document{
         doc! {
             PRICE: self.price,
-            DATE: self.date
+            DATE: self.date,
+            NAME: self.name.clone()
         }
     }
 
