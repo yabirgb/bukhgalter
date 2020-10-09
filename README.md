@@ -19,8 +19,8 @@ presupuesto disponible.
 
 ## Organización del proyecto
 
-La estructura del proyecto y donde encontrar archivos relevantes se encuentra
-disponible en la [documentación](docs/organización.md).
+La estructura del proyecto y donde encontrar **archivos relevantes** se encuentra
+disponible en la [documentación](docs/organizacion.md).
 
 Algunos sitios claves del proyecto son:
 
