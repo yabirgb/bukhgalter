@@ -105,6 +105,11 @@ impl Account{
     }
 
     pub fn pay_by_debtor(&mut self, debtor_name: String, amount: f64){
-        
+        let debtor_position = self.debtors.iter().position(|x| x.name.eq(debtor_name));
+
+        let position = match debtor_position => {
+            Some(position) => position,
+            None => 0 // TODO: Raise Error
+        }
     }
 }
