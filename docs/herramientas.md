@@ -12,3 +12,10 @@
   tarea complicada y que incluye mucha lógica, incluso usando complementos que
   intentan solucionar esto. Por este motivo he decidido que usar make y crear
   reglas en un `makefile` es la mejor solución. 
+
+- Como manera de almacenar la información de manera permanente se ha optado por
+  utilizar una base de datos no relacional como es `mongodb`. La razón es que
+  las estructuras de datos que vamos a utilizar no son muy complejas y se pueden
+  representar de manera adecuada en el formato de documento que propone
+  `mongodb`. Además no vamos a realizar búsquedas intensivas ni operaciones que 
+  sean poco eficientes en `mongodb` por lo que se presenta como una opción fuerte.

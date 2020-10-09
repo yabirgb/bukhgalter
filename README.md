@@ -15,6 +15,13 @@ presupuesto disponible.
 - Como **lenguaje de programación para el proyecto** se ha elegido
   [Rust](https://www.rust-lang.org/).
 
+- Como **base de datos** se ha elegido `mongodb`.
+
+## Organización del proyecto
+
+La estructura del proyecto y donde encontrar cada cosa se encuentra disponible
+en la [documentación](docs/organización.md)
+
 ## Iniciar el proyecto
 
 Es necesario tener `Rust` instalado junto a `Cargo` y `make`.
