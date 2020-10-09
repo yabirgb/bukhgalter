@@ -19,8 +19,15 @@ presupuesto disponible.
 
 ## Organización del proyecto
 
-La estructura del proyecto y donde encontrar cada cosa se encuentra disponible
-en la [documentación](docs/organización.md)
+La estructura del proyecto y donde encontrar archivos relevantes se encuentra
+disponible en la [documentación](docs/organización.md).
+
+Algunos sitios claves del proyecto son:
+
+- [Documentación](docs/)
+- [Código implementado](src/)
+- [Carpeta de tests](tests/)
+- [Archivo de descripción para la asignatura](iv.yaml)
 
 ## Iniciar el proyecto
 
