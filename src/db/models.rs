@@ -21,7 +21,7 @@ pub const PAID: &str = "paid";
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Item{
-    pub price: f32,
+    pub price: f64,
     pub date: u32,
     pub name: String
 }
@@ -88,4 +88,23 @@ impl Account{
     }
 
     pub fn to_account(doc: &Document){}
+
+    pub fn add_debtor(&mut self, debtor: Debtor){
+        self.debtors.push(debtor);
+    }
+
+    pub fn add_item(&mut self, item: Item){
+        self.items.push(item);
+    }
+
+    pub fn total_debt(&self) -> f64{
+        let debt:f64 = self.items.iter().map(|x| x.price).sum();
+        let paid:f64 = self.debtors.iter().map(|x| x.paid_amount).sum();
+
+        debt-paid
+    }
+
+    pub fn pay_by_debtor(&mut self, debtor_name: String, amount: f64){
+        
+    }
 }
