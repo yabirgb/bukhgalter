@@ -1,6 +1,7 @@
 use serde::{Serialize, Deserialize};
 
 use mongodb::bson::{Document, doc};
+use super::errors;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Debtor{
@@ -104,12 +105,12 @@ impl Account{
         debt-paid
     }
 
-    pub fn pay_by_debtor(&mut self, debtor_name: String, amount: f64){
-        let debtor_position = self.debtors.iter().position(|x| x.name.eq(debtor_name));
+    pub fn pay_by_debtor(&mut self, debtor_name: String, amount: f64) -> Result<usize, errors::AccountError>{
+        let debtor_position = self.debtors.iter().position(|x| x.name.eq(&debtor_name));
 
-        let position = match debtor_position => {
-            Some(position) => position,
-            None => 0 // TODO: Raise Error
+        match debtor_position {
+            Some(position) => Ok(position),
+            None => Err(errors::AccountError::DebtorNotFound) // TODO: Raise Error
         }
     }
 }
