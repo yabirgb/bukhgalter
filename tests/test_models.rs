@@ -58,6 +58,107 @@ fn test_account_add_debtor(){
 }
 
 #[test]
+fn test_account_add_multiple_debtors(){
+
+    // Testing the functionality to add a debtor to an account
+
+    let mut acc = models::Account{
+        items: Vec::new(),
+        debtors: Vec::new(),
+    };
+
+    let debtor1 = models::Debtor{
+        name: "Debtor 1".to_string(),
+        id: "21323".to_string(),
+        paid_amount: 0.0,
+        fraction: 0.5,
+        paid: false
+    };
+
+    let debtor2 = models::Debtor{
+        name: "Debtor 2".to_string(),
+        id: "21323".to_string(),
+        paid_amount: 0.0,
+        fraction: 0.5,
+        paid: false
+    };
+
+    acc.add_debtor(debtor1);
+    acc.add_debtor(debtor2);
+
+    assert_eq!(acc.debtors.len(), 2);
+    assert_eq!(acc.debtors[0].fraction. 0.5);
+    assert_eq!(acc.debtors[1].fraction. 0.5);
+}
+
+#[test]
+fn test_account_add_multiple_debtors_with_fraction(){
+
+    // Testing the functionality to add a debtor to an account
+
+    let mut acc = models::Account{
+        items: Vec::new(),
+        debtors: Vec::new(),
+    };
+
+    let debtor1 = models::Debtor{
+        name: "Debtor 1".to_string(),
+        id: "21323".to_string(),
+        paid_amount: 0.0,
+        fraction: 0.5,
+        paid: false
+    };
+
+    let debtor2 = models::Debtor{
+        name: "Debtor 2".to_string(),
+        id: "21323".to_string(),
+        paid_amount: 0.0,
+        fraction: 0.5,
+        paid: false
+    };
+
+    acc.add_debtor(debtor1);
+    acc.add_debtor_with_fractions(debtor2, [0.3, 0.7]);
+
+    assert_eq!(acc.debtors.len(), 2);
+    assert_eq!(acc.debtors[0].fraction. 0.3);
+    assert_eq!(acc.debtors[1].fraction. 0.7);
+}
+
+#[test]
+fn test_account_add_multiple_debtors_with_fraction_invalid(){
+
+    // Testing the functionality to add a debtor to an account
+
+    let mut acc = models::Account{
+        items: Vec::new(),
+        debtors: Vec::new(),
+    };
+
+    let debtor1 = models::Debtor{
+        name: "Debtor 1".to_string(),
+        id: "21323".to_string(),
+        paid_amount: 0.0,
+        fraction: 0.5,
+        paid: false
+    };
+
+    let debtor2 = models::Debtor{
+        name: "Debtor 2".to_string(),
+        id: "21323".to_string(),
+        paid_amount: 0.0,
+        fraction: 0.5,
+        paid: false
+    };
+
+    acc.add_debtor(debtor1);
+    let result = acc.add_debtor_with_fractions(debtor2, [0.3, 0.8]);
+
+    assert_eq!(result.unwrap_err(), errors::AccountError::InvalidProportions );
+
+}
+
+#[test]
 fn test_account_add_item(){
 
     // test what happens when a new item is added to the list

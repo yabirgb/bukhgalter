@@ -16,5 +16,8 @@ pub enum Error {
 #[derive(Error, Debug, PartialEq)]
 pub enum AccountError {
     #[error("User not found in the debtors' list")]
-    DebtorNotFound
+    DebtorNotFound,
+    #[error("Proportions don't sum one")]
+    InvalidProportions,
+
 }
