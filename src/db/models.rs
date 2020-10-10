@@ -102,7 +102,7 @@ impl Account{
 
     pub fn add_debtor_with_fractions(&mut self, debtor: Debtor, fractions: Vec<f64>)->Result<(), errors::AccountError>{
         
-        if fractions.len() != self.debtors.len() + 1 {
+        if (fractions.len() != self.debtors.len() + 1) || (fractions.iter().sum::<f64>() != 1.0) {
             return Err(errors::AccountError::InvalidProportions)
         }
         
