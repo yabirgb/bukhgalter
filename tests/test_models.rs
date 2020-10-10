@@ -92,8 +92,8 @@ fn test_account_add_multiple_debtors(){
     acc.add_debtor(debtor2);
 
     assert_eq!(acc.debtors.len(), 2);
-    assert_eq!(acc.debtors[0].fraction. 0.5);
-    assert_eq!(acc.debtors[1].fraction. 0.5);
+    assert_eq!(acc.debtors[0].fraction, 0.5);
+    assert_eq!(acc.debtors[1].fraction, 0.5);
 }
 
 #[test]
@@ -123,11 +123,11 @@ fn test_account_add_multiple_debtors_with_fraction(){
     };
 
     acc.add_debtor(debtor1);
-    acc.add_debtor_with_fractions(debtor2, [0.3, 0.7]);
+    acc.add_debtor_with_fractions(debtor2, vec![0.3, 0.7]);
 
     assert_eq!(acc.debtors.len(), 2);
-    assert_eq!(acc.debtors[0].fraction. 0.3);
-    assert_eq!(acc.debtors[1].fraction. 0.7);
+    assert_eq!(acc.debtors[0].fraction, 0.3);
+    assert_eq!(acc.debtors[1].fraction, 0.7);
 }
 
 #[test]
@@ -157,7 +157,7 @@ fn test_account_add_multiple_debtors_with_fraction_invalid(){
     };
 
     acc.add_debtor(debtor1);
-    let result = acc.add_debtor_with_fractions(debtor2, [0.3, 0.8]);
+    let result = acc.add_debtor_with_fractions(debtor2, vec![0.3, 0.8]);
 
     assert_eq!(result.unwrap_err(), errors::AccountError::InvalidProportions );
 
