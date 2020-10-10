@@ -1,6 +1,11 @@
 use bukhgalter::db::models;
 use bukhgalter::db::errors;
 
+// This module tests basic functionalities of methods in 
+// the models file.
+// This tests are related to the following UH:
+// HU1 HU2 HU3 HU4
+
 #[test]
 fn check_testing_module(){
     assert!(true);
