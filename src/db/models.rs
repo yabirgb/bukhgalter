@@ -92,6 +92,27 @@ impl Account{
 
     pub fn add_debtor(&mut self, debtor: Debtor){
         self.debtors.push(debtor);
+
+        let equal_fraction:f64 = 1.0/(self.debtors.len() as f64);
+
+        for debtor in &mut self.debtors {
+            debtor.fraction = equal_fraction;
+        }
+    }
+
+    pub fn add_debtor_with_fractions(&mut self, debtor: Debtor, fractions: Vec<f64>)->Result<(), errors::AccountError>{
+        
+        if fractions.len() != self.debtors.len() + 1 {
+            return Err(errors::AccountError::InvalidProportions)
+        }
+        
+        self.debtors.push(debtor);
+
+        for (id, debtor) in self.debtors.iter_mut().enumerate() {
+            debtor.fraction = fractions[id];
+        }
+
+        Ok(())
     }
 
     pub fn add_item(&mut self, item: Item){
@@ -110,7 +131,7 @@ impl Account{
 
         match debtor_position {
             Some(position) => Ok(position),
-            None => Err(errors::AccountError::DebtorNotFound) // TODO: Raise Error
+            None => Err(errors::AccountError::DebtorNotFound)
         }
     }
 }
