@@ -1,6 +1,7 @@
 use serde::{Serialize, Deserialize};
 
 use mongodb::bson::{Document, doc};
+use super::errors;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Debtor{
@@ -91,6 +92,27 @@ impl Account{
 
     pub fn add_debtor(&mut self, debtor: Debtor){
         self.debtors.push(debtor);
+
+        let equal_fraction:f64 = 1.0/(self.debtors.len() as f64);
+
+        for debtor in &mut self.debtors {
+            debtor.fraction = equal_fraction;
+        }
+    }
+
+    pub fn add_debtor_with_fractions(&mut self, debtor: Debtor, fractions: Vec<f64>)->Result<(), errors::AccountError>{
+        
+        if fractions.len() != self.debtors.len() + 1 {
+            return Err(errors::AccountError::InvalidProportions)
+        }
+        
+        self.debtors.push(debtor);
+
+        for (id, debtor) in self.debtors.iter_mut().enumerate() {
+            debtor.fraction = fractions[id];
+        }
+
+        Ok(())
     }
 
     pub fn add_item(&mut self, item: Item){
@@ -104,12 +126,12 @@ impl Account{
         debt-paid
     }
 
-    pub fn pay_by_debtor(&mut self, debtor_name: String, amount: f64){
-        let debtor_position = self.debtors.iter().position(|x| x.name.eq(debtor_name));
+    pub fn pay_by_debtor(&mut self, debtor_name: String, amount: f64) -> Result<usize, errors::AccountError>{
+        let debtor_position = self.debtors.iter().position(|x| x.name.eq(&debtor_name));
 
-        let position = match debtor_position => {
-            Some(position) => position,
-            None => 0 // TODO: Raise Error
+        match debtor_position {
+            Some(position) => Ok(position),
+            None => Err(errors::AccountError::DebtorNotFound)
         }
     }
 }
