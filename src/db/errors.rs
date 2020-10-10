@@ -12,3 +12,12 @@ pub enum Error {
     #[error("invalid id used: {0}")]
     InvalidIDError(String),
 }
+
+#[derive(Error, Debug, PartialEq)]
+pub enum AccountError {
+    #[error("User not found in the debtors' list")]
+    DebtorNotFound,
+    #[error("Proportions don't sum one")]
+    InvalidProportions,
+
+}
