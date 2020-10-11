@@ -1,1 +1,4 @@
 entidad: src/db/models.rs
+lenguaje: rust
+test: tests/test_models.rs
+taskfile: Makefile
