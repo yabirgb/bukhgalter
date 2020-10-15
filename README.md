@@ -10,6 +10,12 @@ quieren ajustar la cuenta de cuanto debe cada persona. También sería interesan
 en el viaje conocer cuanto se va gastando y llevar una planificación del
 presupuesto disponible.
 
+## Cambios realizados
+
+La lista completa de cambios en cada versión ha sido documentada en un archivo
+[changelog](docs/changelog.md). En dicho archivo se encuentran los cambios de cada 
+versión y que issues se han cerrado.
+
 ## Herramientas
 
 - Como **lenguaje de programación para el proyecto** se ha elegido
@@ -29,9 +35,13 @@ Algunos sitios claves del proyecto son:
 - [Carpeta de tests](tests/)
 - [Archivo de descripción para la asignatura](iv.yaml)
 
-## Iniciar el proyecto
+## Algunas funcionalidades
 
 Es necesario tener `Rust` instalado junto a `Cargo` y `make`.
+
+Para comprobar que el proyecto no tiene ningún problema de sintaxis
+
+    make check
 
 Para instalar las dependencias y compilar el proyecto usar
 
@@ -48,6 +58,10 @@ Para ejecutar el servicio usar
 Para instalar las dependencias y compilar en modo de producción
 
     make release
+
+Si se desea la documentación generada por rust para el proyecto
+
+    make docs
 
 ## Documentación
 
