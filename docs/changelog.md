@@ -5,6 +5,7 @@
 ### Historias de usuario creadas
 
 - [HU 4](https://github.com/yabirgb/bukhgalter/issues/15) Actualización de las proporciones de deudas
+- [HU 5](https://github.com/yabirgb/bukhgalter/issues/28) Conocer datos de una lista sobre el estado de las deudas
 
 ### Descripción de cambios realizados
 
@@ -32,7 +33,7 @@ para capturar los errores que se pueden producir en las implementaciones para la
   [https://levans.fr/rust_travis_cache.html](https://levans.fr/rust_travis_cache.html)
   y que recomienda solo cachear ciertos directorios de cargo para evitar _builds_ lentas.
 
-  **Me he basado en los ejemplos que se proporcionan en el repo de estas `actions`
+  **Me he basado en los ejemplos que se proporcionan en el repositorio de estas `actions`
   para construir las mías** [https://github.com/actions-rs/cargo](https://github.com/actions-rs/cargo)
 
 - [#12](https://github.com/yabirgb/bukhgalter/issues/12) `make` será el gestor de tareas que se va a utilizar en el proyecto. Una
@@ -47,6 +48,10 @@ para capturar los errores que se pueden producir en las implementaciones para la
 
 - [#27](https://github.com/yabirgb/bukhgalter/issues/27) Se ha añadido este
   archivo de cambios atendiendo a los datos que es necesario mostrar de manera organizada.
+
+- [#25](https://github.com/yabirgb/bukhgalter/issues/25) La documentación de las [estructuras creadas para le proyecto](https://github.com/yabirgb/bukhgalter/blob/master/src/db/models.rs)
+  ha sido actualizada. Ahora se incluye información más detallada de cada estructura y los métodos más complejos han sido documentados de manera correcta. Además esta documentación se puede 
+  `compilar` de manera que se genera documentación a partir de los comentarios del código en formato _html_.
 
 ### Mejoras introducidas sobre aspectos anteriores
 
