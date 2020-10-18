@@ -14,7 +14,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          file: ./dockerfiles/alpine/Dockerfile
+          dockerfile: ./dockerfiles/alpine/Dockerfile
           repository: yabirgb/bukhgalter
           tag_with_ref: true
       - name: Push to GitHub Packages
@@ -23,6 +23,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
-          file: ./dockerfiles/alpine/Dockerfile
+          dockerfile: ./dockerfiles/alpine/Dockerfile
           repository: yabirgb/bukhgalter/bukhgalter-image
           tag_with_ref: true
