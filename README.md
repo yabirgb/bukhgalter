@@ -79,6 +79,8 @@ Una versión web de la documentación se encuentra en la
 
 - [Variables de entorno usadas](docs/env.md)
 
+- [Información sobre la contenerización del proyecto](docs/contenerizacion.md)
+
 
 ## Autor
 
