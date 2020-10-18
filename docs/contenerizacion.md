@@ -46,4 +46,7 @@ decantarme con uno frente a otro, he decidido usar el contenedor basado en `alpi
 
 ## Fuentes 
 
-- [https://blog.logrocket.com/packaging-a-rust-web-service-using-docker/](https://blog.logrocket.com/packaging-a-rust-web-service-using-docker/)
+- [https://blog.logrocket.com/packaging-a-rust-web-service-using-docker/](https://blog.logrocket.com/packaging-a-rust-web-service-using-docker)
+- [http://whitfin.io/speeding-up-rust-docker-builds/](http://whitfin.io/speeding-up-rust-docker-builds/)
+- [https://docs.github.com/es/free-pro-team@latest/actions/creating-actions/creating-a-docker-container-action](https://docs.github.com/es/free-pro-team@latest/actions/creating-actions/creating-a-docker-container-action)
+- [https://github.com/marketplace/actions/build-and-push-docker-images](https://github.com/marketplace/actions/build-and-push-docker-images)
