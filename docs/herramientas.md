@@ -37,3 +37,15 @@ Los motivos por los que he optado por usar esta herramienta son:
 Además para hacer uso de `fixtures` de forma cómoda he decidido usar
 [rstest](https://github.com/la10736/rstest) que funciona como un `plugin`
 sobre los tests de `Cargo` y permite el uso de los mismos de forma cómoda.
+
+En su momento se consideraron otras alternativas como
+[speculate.rs](https://github.com/utkarshkukreti/speculate.rs) que mantiene un
+estilo similar a `RSpec`. No me he decidido por esta librearía que parece ser
+una de las que más apoyo tiene dentro de la comunidad porque añade dependencias
+que hay que compilar y no considero que me aporta nada adicional frente a
+utilizar el modulo de `testing` de `cargo`. Además `cargo` se actualiza
+frecuentemente junto a `Rust` y es una herramienta más probada.
+
+Un último argumento aunque no de peso para elegir `cargo` a la hora de hacer
+`tests` es que se utiliza en multitud de proyectos y es el ejecutor de tests
+elegido por mozilla en la inmensa mayoría de sus proyectos.
