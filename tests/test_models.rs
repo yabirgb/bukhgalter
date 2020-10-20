@@ -1,5 +1,5 @@
-use bukhgalter::db::models;
-use bukhgalter::db::errors;
+use bukhgalter::models::models;
+use bukhgalter::models::errors;
 
 // This module tests basic functionalities of methods in 
 // the models file.
