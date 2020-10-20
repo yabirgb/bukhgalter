@@ -20,8 +20,9 @@ versión y que issues se han cerrado.
 
 - Como **lenguaje de programación para el proyecto** se ha elegido
   [Rust](https://www.rust-lang.org/).
+- Como **gestor de tareas** se ha decidido utilizar `make`. [Justificación](/docs/herramientas.md)
+- `Cargo` con su utilidad de `testing` (`cargo test`) sera la **herramienta de tests** que se use. [Justificación](/docs/herramientas.md)
 
-- Como **base de datos** se ha elegido `mongodb`.
 
 ## Organización del proyecto
 
