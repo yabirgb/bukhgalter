@@ -17,7 +17,7 @@
   Y finalmente se ha cerrado un `issue` que originó esta separación por HU [#37]((https://github.com/yabirgb/bukhgalter/issues/37))
 
 - Se ha refactorizado el código de tests para eliminar las constantes que
-  aparecían sueltas y para hacer uso de `fixtures`. Se documenta en [#36](https://github.com/yabirgb/bukhgalter/issues/36)
+  aparecían sueltas y para hacer uso de `fixtures`. Se desarrolla tras la creación de [#36](https://github.com/yabirgb/bukhgalter/issues/36)
 
 - Se ha eliminado el código relacionado con `mongodb` y que no pertenecía a estos hitos. [#38](https://github.com/yabirgb/bukhgalter/issues/38)
 
