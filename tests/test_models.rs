@@ -6,7 +6,7 @@ use bukhgalter::models::errors;
 // This module tests basic functionalities of methods in 
 // the models file.
 // This tests are related to the following UH:
-// HU1 HU2 HU3 HU4
+// HU1 HU2 HU3 HU4 HU5
 
 
 // Const for debtor FIXTURE
@@ -69,8 +69,6 @@ fn item(name: &str, date: u32, price:f64) -> Item{
 
 #[rstest]
 fn test_modifiers_debtor(mut debtor: Debtor){
-    // test the different modifires available for the Debtor
-    // struct
 
     debtor.update_paid_amount(20.0);
     debtor.rename_debtor("Debtor_1".to_string());
@@ -89,10 +87,20 @@ fn test_modifiers_debtor(mut debtor: Debtor){
 
 #[rstest]
 fn test_account_add_debtor(mut account: Account, debtor: Debtor){
+    /*
+    This test is related to HU2. In this test we take a paarameters
+    an empty account and a debtor and we try to add the debtor to the list
+    of debtor.
 
-    // Testing the functionality to add a debtor to an account
+    We check:
+
+    - The list of debtors has increased in size
+    - The debtor in the list of debtors is the one we have added
+    */
+    assert_eq!(account.debtors.len(),0);
     account.add_debtor(debtor);
     assert_eq!(account.debtors.len(), 1);
+    assert_eq!(account.debtors[0].id,DEFAULT_ID);
 }
 
 #[rstest]
