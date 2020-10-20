@@ -170,12 +170,21 @@ fn test_account_add_multiple_debtors_with_fraction_invalid(mut account: Account,
 #[rstest]
 fn test_account_add_item(mut account: Account, item: Item){
 
-    // test what happens when a new item is added to the list
+    /*
+    Related to HU1
+
+    We check that:
+
+    - When we add multiple items to the list the objects are added
+    correctly to it
+
+    */
 
     account.add_item(item.clone());
     account.add_item(item.clone());
 
     assert_eq!(account.items.len(), 2);
+    assert_eq!(account.items[0].name, ITEM_NAME);
 }
 
 #[rstest]
