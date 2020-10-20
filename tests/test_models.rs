@@ -242,8 +242,14 @@ fn test_total_price_empty(account: Account){
 #[rstest]
 fn test_pay_by_debtor(mut account: Account, debtor: Debtor, item: Item){
     
-    // setup conditions
+    
+    /*
+    Test related to HU3
 
+    We check:
+
+    - When a debtor pays a portion of the total debt the changes are made correctly
+    */
     account.add_item(item.clone());
     account.add_debtor(debtor.clone());
 
@@ -251,14 +257,22 @@ fn test_pay_by_debtor(mut account: Account, debtor: Debtor, item: Item){
 
     let payment = account.pay_by_debtor(DEFAULT_NAME.to_string(), ITEM_PRICE);
 
-    assert_eq!(payment.unwrap(), 0 );
+    assert_eq!(payment.unwrap(), 0);
 
 }
 
 #[rstest]
 fn test_pay_by_debtor_not_found(mut account: Account, debtor: Debtor, item: Item){
     
-    // setup conditions
+
+    /*
+    Test related to HU3
+
+    We check:
+
+    - If the debtor is not in the list of debtors a new error should be raised
+    */
+
     account.add_item(item.clone());
     account.add_debtor(debtor.clone());
 
