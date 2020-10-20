@@ -1,6 +1,4 @@
-use serde::{Serialize, Deserialize};
-
-use mongodb::bson::{Document, doc};
+use miniserde::{Serialize, Deserialize};
 use super::errors;
 
 /// Struct que abstrae la identidad de un deudor. Esta estructura 
@@ -57,16 +55,6 @@ pub const ITEMS: &str = "items";
 pub const DEBTORS: &str = "debtors";
 
 impl Debtor{
-    pub fn to_doc(&self) -> Document{
-        doc! {
-            NAME: self.name.clone(),
-            PAID_AMOUNT: self.paid_amount,
-            PAID: self.paid,
-            FRACTION: self.fraction,
-        }
-    }
-
-    pub fn to_debtor(doc: &Document){}
 
     pub fn update_paid_amount(&mut self, new_paid_amount:f64){
         self.paid_amount = new_paid_amount;
@@ -85,27 +73,7 @@ impl Debtor{
     }
 }
 
-impl Item{
-    pub fn to_doc(&self) -> Document{
-        doc! {
-            PRICE: self.price,
-            DATE: self.date,
-            NAME: self.name.clone()
-        }
-    }
-
-    pub fn to_item(doc: &Document){}
-}
-
 impl Account{
-    pub fn to_doc(&self) -> Document{
-        doc!{
-            ITEMS: self.items.clone().into_iter().map(|x| x.to_doc()).collect::<Vec<_>>(),
-            DEBTORS: self.debtors.clone().into_iter().map(|x| x.to_doc()).collect::<Vec<_>>()
-        }
-    }
-
-    pub fn to_account(doc: &Document){}
 
     /// Añadir un deudor a la lista de deudores. Por defecto cuando utilizamos esta función, revalanceamos la 
     /// proporción de deuda de cada deudor para que todos paguen lo mismo.

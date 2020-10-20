@@ -1,6 +1,6 @@
 use thiserror::Error;
-use mongodb::bson;
 
+/*
 #[derive(Error, Debug)]
 pub enum Error {
     #[error("mongodb error: {0}")]
@@ -12,6 +12,7 @@ pub enum Error {
     #[error("invalid id used: {0}")]
     InvalidIDError(String),
 }
+*/
 
 #[derive(Error, Debug, PartialEq)]
 pub enum AccountError {
