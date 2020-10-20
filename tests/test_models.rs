@@ -190,8 +190,13 @@ fn test_account_add_item(mut account: Account, item: Item){
 #[rstest]
 fn test_total_debt_no_debtors(mut account: Account, item: Item){
 
-    // Chech that when we add multiple items the 
-    // total debt is correctly calculated
+    /*
+    Test related to HU5 
+
+    We check:
+
+    - The total debt when we add items and no debtors is the sum of the price of the items
+    */
 
 
     account.add_item(item.clone());
@@ -203,8 +208,14 @@ fn test_total_debt_no_debtors(mut account: Account, item: Item){
 #[rstest]
 fn test_total_price_debtor(mut account: Account, debtor: Debtor, item: Item){
 
-    // Chech that when a debtor pays one portion the total
-    // debt is adjusted correctly
+    
+    /*
+    Test related to HU5 
+
+    We check:
+
+    - When we add a new debtor it doesn't affect the amount of debt of the account
+    */
 
     account.add_item(item.clone());
     account.add_item(item.clone());
@@ -216,7 +227,14 @@ fn test_total_price_debtor(mut account: Account, debtor: Debtor, item: Item){
 #[rstest]
 fn test_total_price_empty(account: Account){
 
-    // compute total debt with an empty list of debtors
+    
+    /*
+    Test related to HU5 
+
+    We check:
+
+    - The total debt when the account is empty should be 0
+    */
 
     assert_eq!(account.total_debt(), 0.0);
 }
