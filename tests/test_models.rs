@@ -14,7 +14,7 @@ const DEFAULT_NAME: &str = "Debtor 1"; // Un nombre cualquiera
 const ALTERNATIVE_NAME: &str = "Debtor 2"; // name when there are two fixtures involved
 const DEFAULT_ID: &str = "21323"; // Un valor cualquiera
 const PAID_AMOUNT: f64 = 0.0; // By default the fixture objects have paid 0.0 units
-const FRACTION: f64 = 0.5; // By default debtors are assigned half of the debt in fixtures
+const FRACTION: f64 = 1.0; // By default debtors are assigne all the payment
 const PAID: bool = false; // By default debotrs are not eximed from paying the debt in fixtures
 
 // const for items
@@ -106,20 +106,41 @@ fn test_account_add_debtor(mut account: Account, debtor: Debtor){
 #[rstest]
 fn test_account_add_multiple_debtors(mut account: Account, debtor: Debtor, debtor_party: Debtor){
 
-    // Testing the functionality to add a debtor to an account
+    /*
+    This test is related to HU4. 
+    
+    We check:
+    
+    - when a new debtor  is added to the list of debtors the proportion is reassigned as it should. 
+    -First we test that adding two individuals the proprotion resizes as it should
+    and the we check with 3.
+    */
 
     account.add_debtor(debtor);
-    account.add_debtor(debtor_party);
+    account.add_debtor(debtor_party.clone());
 
     assert_eq!(account.debtors.len(), 2);
-    assert_eq!(account.debtors[0].fraction, FRACTION);
-    assert_eq!(account.debtors[1].fraction, FRACTION);
+    assert_eq!(account.debtors[0].fraction, FRACTION/2.0);
+    assert_eq!(account.debtors[1].fraction, FRACTION/2.0);
+
+    account.add_debtor(debtor_party);
+
+
+    assert_eq!(account.debtors.len(), 3);
+    assert_eq!(account.debtors[0].fraction, FRACTION/3.0);
+    assert_eq!(account.debtors[1].fraction, FRACTION/3.0);
 }
 
 #[rstest]
 fn test_account_add_multiple_debtors_with_fraction(mut account: Account, debtor: Debtor, debtor_party: Debtor){
 
-    // Testing the functionality to add a debtor to an account
+    /*
+    This test is related to HU4. 
+    
+    We check:
+    
+    - When we add a new debtor, we add it specifying a new distribution of the debt
+    */
 
     account.add_debtor(debtor);
     account.add_debtor_with_fractions(debtor_party, vec![0.3, 0.7]);
@@ -132,7 +153,13 @@ fn test_account_add_multiple_debtors_with_fraction(mut account: Account, debtor:
 #[rstest]
 fn test_account_add_multiple_debtors_with_fraction_invalid(mut account: Account, debtor: Debtor, debtor_party: Debtor){
 
-    // Testing the functionality to add a debtor to an account
+    /*
+    This test is related to HU4. 
+    
+    We check:
+    
+    - The method raises an error as the proportion is not valid
+    */
 
     account.add_debtor(debtor);
     let result = account.add_debtor_with_fractions(debtor_party, vec![0.3, 0.8]);
