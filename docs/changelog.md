@@ -1,5 +1,26 @@
 # Cambios realizados entre hitos
 
+## Hito 2 (REENVIO)
+
+- Se [documenta](herramientas.md#herramienta-de-tests) por que se ha utilizado `cargo tests`, otras herramientas de test
+  que se consideraron, el conjunto de librerías de aserciones que se usa...
+
+- Se han documentado en los mismos tests lo que se hace y la HU de usuario con la que se relaciona. 
+  También se ha hecho una revisión de algunos y todo se ha desarrollado en relación con los issues
+  
+  - [#39](https://github.com/yabirgb/bukhgalter/issues/39)
+  - [#41](https://github.com/yabirgb/bukhgalter/issues/41)
+  - [#43](https://github.com/yabirgb/bukhgalter/issues/43)
+  - [#40](https://github.com/yabirgb/bukhgalter/issues/40)
+  - [#42](https://github.com/yabirgb/bukhgalter/issues/42)
+
+  Y finalmente se ha cerrado un `issue` que originó esta separación por HU [#37]((https://github.com/yabirgb/bukhgalter/issues/37))
+
+- Se ha refactorizado el código de tests para eliminar las constantes que
+  aparecían sueltas y para hacer uso de `fixtures`. Se documenta en [#36](https://github.com/yabirgb/bukhgalter/issues/36)
+
+- Se ha eliminado el código relacionado con `mongodb` y que no pertenecía a estos hitos. [#38](https://github.com/yabirgb/bukhgalter/issues/38)
+
 ## Hito 2
 
 ### Historias de usuario creadas
