@@ -3,12 +3,14 @@
 FROM rust:1.44.1 as builder
 # Nos ponemos a trabajar en la carpeta test
 WORKDIR ./test
+
+# creamos una carpeta src
+RUN mkdir src/
+# y aniadimos un archivo base para poder compilar
+RUN echo "fn main() {println!(\"This shouldn't be in your code\")}" > src/main.rs
+
 # Copiamos el archivo que contiene las dependencias del proyecto
 COPY ./Cargo.toml ./Cargo.toml
-
-RUN mkdir src/
-
-RUN echo "fn main() {println!(\"if you see this, the build broke\")}" > src/main.rs
 
 # Construimos el proyecto en modo debug para compilar las dependencias externas
 RUN cargo build

@@ -13,7 +13,7 @@ contenedor y después necesitamos compilar las dependencias de nuestra aplicaci�
 He considerado tres imágenes base para mi contenedor
 
 - `rust:1.44.1` que utiliza `debian` internamente
-- `rust:1.44.1` que se basa en la anterior pero no contiene todos los
+- `rust:1.44.1-slim` que se basa en la anterior pero no contiene todos los
   complementos y solo trae las utilidades básicas.
 - `rust:1.44.1-alpine`: Imagen basada en `alpine`
 
@@ -29,7 +29,7 @@ Dentro del `Dockerfile` hacemos los siguiente
     # creamos una carpeta src
     RUN mkdir src/
     # y aniadimos un archivo base para poder compilar
-    RUN echo "fn main() {println!(\"This should'b be in your code\")}" > src/main.rs
+    RUN echo "fn main() {println!(\"This shouldn't be in your code\")}" > src/main.rs
 
     # Construimos el proyecto en modo debug para compilar las dependencias externas
     RUN cargo build
@@ -119,18 +119,15 @@ contenedores resultantes tienen los siguientes tamaños:
         bukhgalter-alpine         latest              56737fdf344f        31 seconds ago      15MB
         bukhgalter-debian         latest              584ac87e2e5b        31 minutes ago      83.2MB
 
-    
-  docker build -t bukhgalter_alpine:latest -f ./dockerfiles/alpine//Dockerfile   0.25s user 0.15s system 0% cpu 4:07.68 total
-  docker build -t bukhgalter_rust:latest -f ./dockerfiles/debian/Dockerfile .  0.22s user 0.14s system 0% cpu 3:37.64 total
-
-
-
 #### Elección del contenedor
 
 A la hora de ejecutar ambos contenedores no he tenido ningún problema que me
-haga decantar por uno u otro. A la vista de que el tamaño para la imagen de
-`alpine` es mucho mayor y, puesto que no hay ningún requisito técnico que me haga
-decantarme con uno frente a otro, he decidido usar el contenedor basado en `alpine`.
+haga decantar por uno u otro. Tampoco hay un factor de velocidad que comparar ya
+que son contenedores pensados para desplegar la aplicación y con el estado
+actual no se puede apreciar ninguna diferencia. A la vista de que el tamaño para
+la imagen de `alpine` es mucho menor y, puesto que no hay ningún requisito
+técnico que me haga decantarme con uno frente a otro, he decidido usar el
+contenedor basado en `alpine`.
 
 ## Fuentes 
 
