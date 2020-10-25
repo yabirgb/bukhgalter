@@ -24,7 +24,7 @@ jobs:
   rebuildContainer:
     needs: changes
     runs-on: ubuntu-latest
-    if: ${{ needs.changes.outputs.core == 'true' }}
+    if: always() && ${{ needs.changes.outputs.core == 'true' }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
