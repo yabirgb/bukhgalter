@@ -24,7 +24,7 @@ jobs:
   rebuildContainer:
     needs: changes
     runs-on: ubuntu-latest
-    if: steps.deepChanges.outputs.core == 'true'
+    if: needs.deepChanges.outputs.core == 'true'
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
