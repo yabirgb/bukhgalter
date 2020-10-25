@@ -1,28 +1,60 @@
 on: push
 
-name: Check and test
+name: Testing workflow
 
 jobs:
-  check:
-    name: Check
+
+  # Detectar si algun archivo clave ha sido modificado
+  # basado en https://github.com/dorny/paths-filter
+  rebuildNeeded:
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.deepChanges.outputs.files }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - uses: dorny/paths-filter@v2
+        id: deepChanges
         with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-      - uses: actions-rs/toolchain@v1
+          filters: |
+            core:
+              - 'dockerfiles/**'
+              - 'Cargo.toml'
+              - '.github/**'
+
+  rebuildContainer:
+    needs: needRebuild
+    if: ${{ needs.rebuildNeeded.outputs.core == 'true' }}
+    name: Push Docker image to multiple registries
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
         with:
-          profile: minimal
-          toolchain: stable
-          override: true
-      - uses: actions-rs/cargo@v1
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1 
         with:
-          command: check
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CR_PAT }}
+      - name: Push to Docker Hub
+        uses: docker/build-push-action@v2
+        with:
+          file: ./dockerfiles/testing/slim/Dockerfile
+          repository: yabirgb/bukhgalter
+          tag_with_ref: true
+      - name: Push to GitHub Packages
+        uses: docker/build-push-action@v2
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+          file: ./dockerfiles/testing/slim/Dockerfile
+          repository: yabirgb/bukhgalter/bukhgalter-testing
+          tag_with_ref: true
 
   test:
     name: Run tests
