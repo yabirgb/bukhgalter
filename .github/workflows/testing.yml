@@ -24,7 +24,7 @@ jobs:
   rebuildContainer:
     needs: changes
     runs-on: ubuntu-latest
-    if: ${{ needs.changes.outputs.core == 'true' }}
+    if: needs.changes.outputs.core == 'true'
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -50,7 +50,6 @@ jobs:
 
   test:
     needs: [changes, rebuildContainer]
-    if: "always()"
     runs-on: ubuntu-latest
     container: yabirgb/bukhgalter:latest
     steps:
