@@ -33,26 +33,11 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1 
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.CR_PAT }}
       - name: Push to Docker Hub
         uses: docker/build-push-action@v2
         with:
           file: ./dockerfiles/testing/slim/Dockerfile
           repository: yabirgb/bukhgalter
-          tag_with_ref: true
-      - name: Push to GitHub Packages
-        uses: docker/build-push-action@v2
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          file: ./dockerfiles/testing/slim/Dockerfile
-          repository: yabirgb/bukhgalter/bukhgalter-testing
           tag_with_ref: true
 
   test:
