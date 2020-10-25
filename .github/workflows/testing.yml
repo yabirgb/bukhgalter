@@ -40,4 +40,6 @@ jobs:
   test:
     needs: [changes, rebuildContainer]
     if: "always()"
-    runs-on: yabirgb/bukhgalter:latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: docker:://yabirgb/bukhgalter:latest
