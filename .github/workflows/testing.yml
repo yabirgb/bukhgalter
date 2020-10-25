@@ -22,7 +22,7 @@ jobs:
               - '.github/**'
 
   rebuildContainer:
-    needs: needRebuild
+    needs: rebuildNeeded
     if: ${{ needs.rebuildNeeded.outputs.core == 'true' }}
     name: Push Docker image to multiple registries
     runs-on: ubuntu-latest
