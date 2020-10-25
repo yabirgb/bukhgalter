@@ -57,6 +57,7 @@ jobs:
           tag_with_ref: true
 
   test:
+    needs: [rebuildNeeded, rebuildContainer]
     name: Run tests
     runs-on: ubuntu-latest
     steps:
