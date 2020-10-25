@@ -43,5 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     container: yabirgb/bukhgalter:latest
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
       - name: Tests
-      - run: cargo test
+        run: cargo test
