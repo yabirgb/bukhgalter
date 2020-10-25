@@ -6,13 +6,10 @@ jobs:
 
   # Detectar si algun archivo clave ha sido modificado
   # basado en https://github.com/dorny/paths-filter
-  changes:
+  rebuildContainer:
+    needs: changes
     runs-on: ubuntu-latest
-    outputs:
-      changed: ${{ steps.deepChanges.outputs.files }}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: dorny/paths-filter@v2
+    - uses: dorny/paths-filter@v2
         id: deepChanges
         with:
           filters: |
@@ -20,11 +17,7 @@ jobs:
               - 'dockerfiles/**'
               - 'Cargo.toml'
               - '.github/**'
-
-  rebuildContainer:
-    needs: changes
-    runs-on: ubuntu-latest
-    if: needs.deepChanges.outputs.core == 'true'
+    if: steps.deepChanges.outputs.core == 'true'
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
