@@ -6,7 +6,7 @@ jobs:
 
   # Detectar si algun archivo clave ha sido modificado
   # basado en https://github.com/dorny/paths-filter
-  rebuildNeeded:
+  changes:
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.deepChanges.outputs.files }}
@@ -24,7 +24,7 @@ jobs:
   rebuildContainer:
     needs: rebuildNeeded
     runs-on: ubuntu-latest
-    if: ${{ needs.rebuildNeeded.outputs.core == 'true' }}
+    if: ${{ needs.changes.outputs.core == 'true' }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
