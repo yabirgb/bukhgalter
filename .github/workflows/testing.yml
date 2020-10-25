@@ -23,9 +23,8 @@ jobs:
 
   rebuildContainer:
     needs: rebuildNeeded
-    if: ${{ needs.rebuildNeeded.outputs.core == 'true' }}
-    name: Push Docker image to multiple registries
     runs-on: ubuntu-latest
+    if: ${{ needs.rebuildNeeded.outputs.core == 'true' }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -58,7 +57,7 @@ jobs:
 
   test:
     needs: [rebuildNeeded, rebuildContainer]
-    name: Run tests
+    if: "always()"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
