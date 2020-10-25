@@ -41,6 +41,11 @@ precauciones que he tenido al crear los contenedores.
 Todas las fuentes de las que he sacado código no propio aparecen documentadas en los
 distintos archivos en el apartado de `fuentes`.
 
+El contenedor de tests se encuentra publicado en:
+
+- [Dockerhub](https://hub.docker.com/repository/docker/yabirgb/bukhgalter)
+- [Github Container Repository](https://github.com/users/yabirgb/packages/container/package/bukhgalter)
+
 ## Organización del proyecto
 
 La estructura del proyecto y donde encontrar **archivos relevantes** se encuentra
