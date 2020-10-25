@@ -22,7 +22,7 @@ jobs:
               - '.github/**'
 
   rebuildContainer:
-    needs: rebuildNeeded
+    needs: changes
     runs-on: ubuntu-latest
     if: ${{ needs.changes.outputs.core == 'true' }}
     steps:
@@ -56,7 +56,7 @@ jobs:
           tag_with_ref: true
 
   test:
-    needs: [rebuildNeeded, rebuildContainer]
+    needs: [changes, rebuildContainer]
     if: "always()"
     runs-on: ubuntu-latest
     steps:
