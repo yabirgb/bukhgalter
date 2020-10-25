@@ -37,16 +37,16 @@ jobs:
       #    username: ${{ secrets.DOCKERHUB_USERNAME }}
       #    password: ${{ secrets.DOCKERHUB_TOKEN }}
       # https://docs.github.com/en/free-pro-team@latest/packages/getting-started-with-github-container-registry/migrating-to-github-container-registry-for-docker-images
-
-      - name: Push to GitHub Packages
-        uses: docker/build-push-action@v1
+      
+      # https://github.com/marketplace/actions/docker-login#github-container-registry
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
         with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.PAC }}
           registry: ghcr.io
-          repository: yabirgb/bukhgalter
-          dockerfile: ./dockerfiles/testing/slim/Dockerfile
-          tag_with_ref: true
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.PAT }}
+      - name: Upload container to GCR
+        run: docker build -t ghcr.io/yabirgb/bukhgalter:latest . && docker push ghcr.io/yabirgb/bukhgalter:latest
 
   test:
     needs: [changes, rebuildContainer]
