@@ -29,22 +29,16 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
       # https://github.com/marketplace/actions/publish-docker
-      - name: Publish containers
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          name: yabirgb/bukhgalter
-          dockerfile: ./dockerfiles/testing/slim/Dockerfile
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      #- name: Publish containers
+      #  uses: elgohr/Publish-Docker-Github-Action@master
+      #  with:
+      #    name: yabirgb/bukhgalter
+      #    dockerfile: ./dockerfiles/testing/slim/Dockerfile
+      #    username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #    password: ${{ secrets.DOCKERHUB_TOKEN }}
       # https://docs.github.com/en/free-pro-team@latest/packages/getting-started-with-github-container-registry/migrating-to-github-container-registry-for-docker-images
-      - name: Publish to GCR
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.PAC }}
-      - name: Push
-        run: docker build -t ghcr.io/yabirgb/bukhgalter:latest ./dockerfiles/testing/slim/Dockerfile && docker push ghcr.io/yabirgb/bukhgalter:latest
+      - name: Push to GCR
+        run: echo ${{ secrets.PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin && docker build -t ghcr.io/yabirgb/bukhgalter:latest ./dockerfiles/testing/slim/Dockerfile && docker push ghcr.io/yabirgb/bukhgalter:latest
 
   test:
     needs: [changes, rebuildContainer]
