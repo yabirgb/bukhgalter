@@ -41,5 +41,7 @@ jobs:
     needs: [changes, rebuildContainer]
     if: "always()"
     runs-on: ubuntu-latest
+    container: yabirgb/bukhgalter:latest
     steps:
-      - uses: docker:://yabirgb/bukhgalter:latest
+      - name: Tests
+      - run: cargo test
