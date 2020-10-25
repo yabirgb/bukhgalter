@@ -7,7 +7,6 @@ jobs:
   # Detectar si algun archivo clave ha sido modificado
   # basado en https://github.com/dorny/paths-filter
   rebuildContainer:
-    needs: changes
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
