@@ -46,7 +46,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.PAT }}
       - name: Upload container to GCR
-        run: docker build -t ghcr.io/yabirgb/bukhgalter:latest ./dockerfiles/testing/slim/Dockerfile && docker push ghcr.io/yabirgb/bukhgalter:latest
+        run: docker build -t ghcr.io/yabirgb/bukhgalter:latest -f ./dockerfiles/testing/slim/Dockerfile && docker push ghcr.io/yabirgb/bukhgalter:latest
 
   test:
     needs: [changes, rebuildContainer]
