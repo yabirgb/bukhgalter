@@ -37,8 +37,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           file: ./dockerfiles/testing/slim/Dockerfile
-          repository: yabirgb/bukhgalter
-          tag_with_ref: true
+          tags: yabirgb/bukhgalter:latest
 
   test:
     needs: [changes, rebuildContainer]
