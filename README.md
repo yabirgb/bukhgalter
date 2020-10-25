@@ -23,6 +23,23 @@ versión y que issues se han cerrado.
 - Como **gestor de tareas** se ha decidido utilizar `make`. [Justificación](/docs/herramientas.md)
 - `Cargo` con su utilidad de `testing` (`cargo test`) sera la **herramienta de tests** que se use. [Justificación](/docs/herramientas.md)
 
+## Docker
+
+En el archivo de [contenerizacion](docs/contenerizacion.md) hago una explicación
+del proceso que he seguido para crear los dos contenedores que he creado para el
+proyecto.
+
+- [Un contenedor para ejecutar los tests](dockerfiles/testing/slim/Dockerfile)
+- [Un contenedor para ejecutar la aplicación](dockerfiles/alpine/Dockerfile)
+
+En el archivo de [CI](docs/CI.md) explico como se ha integrado docker en los
+tests y como se despliega el contenedor de tests en dockerhub.
+
+Finalmente en el archivo de [criterios](docs/criterios.md) explico las
+precauciones que he tenido al crear los contenedores.
+
+Todas las fuentes de las que he sacado código no propio aparecen documentadas en los
+distintos archivos en el apartado de `fuentes`.
 
 ## Organización del proyecto
 
