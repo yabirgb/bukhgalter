@@ -13,6 +13,8 @@ WORKDIR ./test
 ENV APP_USER=test_user
 
 RUN useradd -ms /bin/bash $APP_USER
+RUN chown $APP_USER ./test
+
 USER $APP_USER
 
 # creamos una carpeta src
