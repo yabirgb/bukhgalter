@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: $TEST_CONTAINER
-      options: --user 1000      : 
+      options: --user 1000
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
