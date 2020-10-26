@@ -36,6 +36,12 @@ Para realizar el despliegue en `dockerhub` se han seguido los siguientes pasos:
 4. Se ha configurado en `github actions` los datos de usuario usando el token
    creado para publicar los contenedores.
 
+La parte del action donde se realiza la publicación del contenedor esta disponible [aquí](https://github.com/yabirgb/bukhgalter/blob/master/.github/workflows/testing.yml#L26).
+
+También se podía haber configurado un trigger desde docker hub pero he preferido 
+decantarme por esta opción por la libertad que me da para publicar en otras 
+plataformas y porque puede _programar_ como quiero que se construyan los contenedores.
+
 En el caso de los repositorios de `github` ha sido necesario crear un token de
 acceso que también se ha añadido a los `secrets` del repositorio y se ha añadido
 también al `actions` para los tests.
