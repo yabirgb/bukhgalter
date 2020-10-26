@@ -1,5 +1,6 @@
-LABEL version="1.0" maintainer="Yabir Garcia <yabirgb@gmail.com>" 
 FROM rust:1.44.1 as builder
+LABEL version="1.0" maintainer="Yabir Garcia <yabirgb@gmail.com>" 
+
 
 RUN USER=root cargo new --lib bukhgalter
 WORKDIR ./bukhgalter

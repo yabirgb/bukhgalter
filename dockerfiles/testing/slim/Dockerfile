@@ -1,6 +1,6 @@
-LABEL version="1.0" maintainer="Yabir Garcia <yabirgb@gmail.com>" 
 # Elegimos la imagen base para el contenedor
 FROM rust:1.44.1-slim as builder
+LABEL version="1.0" maintainer="Yabir Garcia <yabirgb@gmail.com>" 
 
 # Instalamos make como dependencia
 RUN apt-get update && apt-get install make

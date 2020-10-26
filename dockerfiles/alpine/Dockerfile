@@ -1,5 +1,5 @@
-LABEL version="1.0" maintainer="Yabir Garcia <yabirgb@gmail.com>" 
 FROM ekidd/rust-musl-builder:stable as builder
+LABEL version="1.0" maintainer="Yabir Garcia <yabirgb@gmail.com>" 
 
 RUN USER=root cargo new --lib bukhgalter
 WORKDIR ./bukhgalter
