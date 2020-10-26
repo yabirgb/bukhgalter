@@ -2,9 +2,12 @@
 FROM rust:1.44.1 as builder
 LABEL version="1.0" maintainer="Yabir Garcia <yabirgb@gmail.com>" 
 
-
 # Instalamos make como dependencia
 RUN apt-get update && apt-get install make
+
+# Creamos un usuario para ejecutar los tests
+ENV APP_USER=test_user
+RUN useradd -ms /bin/bash $APP_USER
 
 # Nos ponemos a trabajar en la carpeta test
 WORKDIR ./test
@@ -23,6 +26,9 @@ RUN cargo build
 RUN rm -rf src
 # Eliminamos los ejecutables asociados al código por defecto
 RUN rm ./target/debug/deps/bukhgalter*
-
+# Le damos permiso al usuario para utilizar cargo
+RUN chown $APP_USER:$APP_USER -R /usr/local/cargo/
+# Cambiamos el usuario
+USER $APP_USER
 # Ejecutamos los tests
 CMD ["make", "test"]
