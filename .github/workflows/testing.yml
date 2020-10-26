@@ -48,7 +48,6 @@ jobs:
   test:
     needs: [rebuildContainer]
     runs-on: ubuntu-latest
-    container: yabirgb/bukhgalter:latest
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
