@@ -1,6 +1,10 @@
-# Partimes de una imagen base
+LABEL version="1.0" maintainer="Yabir Garcia <yabirgb@gmail.com>" 
 # Elegimos la imagen base para el contenedor
 FROM rust:1.44.1 as builder
+
+# Instalamos make como dependencia
+RUN apt-get update && apt-get install make
+
 # Nos ponemos a trabajar en la carpeta test
 WORKDIR ./test
 
@@ -20,4 +24,4 @@ RUN rm -rf src
 RUN rm ./target/debug/deps/bukhgalter*
 
 # Ejecutamos los tests
-CMD ["cargo", "test"]
+CMD ["make", "test"]
