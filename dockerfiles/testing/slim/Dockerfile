@@ -23,13 +23,6 @@ RUN rm -rf src
 # Eliminamos los ejecutables asociados al código por defecto
 RUN rm ./target/debug/deps/bukhgalter*
 
-# Creamos un usuario para ejecutar los tests
-
-ENV APP_USER=test_user
-
-RUN useradd -ms /bin/bash $APP_USER
-USER $APP_USER
-
 # Ejecutamos los tests
 CMD ["make", "test"]
 
