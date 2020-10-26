@@ -22,7 +22,7 @@ RUN rm -rf src
 RUN rm ./target/debug/deps/bukhgalter*
 
 # Le damos permiso al usuario para utilizar cargo
-RUN chown $APP_USER:$APP_USER -R /usr/local/cargo/ && mkdir -p target/debug && chown -R $APP_USER:$APP_USER /test
+RUN chown $APP_USER:$APP_USER -R /usr/local/cargo/ && mkdir -p /test/target/debug && chown -R $APP_USER:$APP_USER /test
 # Cambiamos el usuario
 USER $APP_USER
 # Ejecutamos los tests
