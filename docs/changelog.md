@@ -1,5 +1,11 @@
 # Cambios realizados entre hitos
 
+## Hito 3 
+
+- Se ha creado un contenedor de docker para tests documentado en [contenerizacion.md](contenerizacion.md)
+- Se ha documentado como se ha integrado el contenedor de docker en [CI](CI.md) y como se ha desplegado.
+- También se han redactado los [criterios](criterios.md) y precauciones que se han tenido.
+
 ## Hito 2 (REENVIO)
 
 - Se [documenta](herramientas.md#herramienta-de-tests) por que se ha utilizado `cargo tests`, otras herramientas de test
