@@ -56,9 +56,13 @@ problemas:
   no construirlos en función de los archivos cambiados. Finalmente me decanté
   por buscar en el `marketplace` un `action` que me permitía hacer lo que
   buscaba.
+- Además se ha encontrado un problema con la ejecución de los tests en el
+  contenedor usando un usuario distinto al de root. Este problema se ha 
+  discutido en [contenerizacion](contenerizacion.md)
 
 ## Fuentes
 
 - [https://github.com/marketplace/actions/docker-login#github-container-registry](https://github.com/marketplace/actions/docker-login#github-container-registry)
 - [https://github.com/marketplace/actions/publish-docker](https://github.com/marketplace/actions/publish-docker)
 - [https://github.com/dorny/paths-filter](https://github.com/dorny/paths-filter)
+- [https://docs.github.com/en/free-pro-team@latest/packages/getting-started-with-github-container-registry/migrating-to-github-container-registry-for-docker-images](https://docs.github.com/en/free-pro-team@latest/packages/getting-started-with-github-container-registry/migrating-to-github-container-registry-for-docker-images)

@@ -65,7 +65,7 @@ salvedad de que usan `musl`.
 ### Más problemas
 
 **El contenedor anterior funciona correctamente** pero por algún motivo que no
-he logrado solucionar tras varias horas de pruebas es que me da un error al
+he logrado solucionar tras varias horas de pruebas, me da un error al
 ejecutarse en github actions. El error se puede [consultar aquí](https://github.com/yabirgb/bukhgalter/runs/1310063225?check_suite_focus=true#step:3:75). 
 
 Mi idea del motivo del error es que necesito crear unos archivos y como el
