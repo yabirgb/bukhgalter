@@ -1,6 +1,8 @@
 on: push
 
 name: Testing workflow
+env:
+  - TEST_CONTAINER=yabirgb/bukhgalter:latest
 
 jobs:
 
@@ -18,7 +20,7 @@ jobs:
             core:
               - 'dockerfiles/**'
               - 'Cargo.toml'
-              - '.github/**'
+        #      - '.github/**'
 
       # https://github.com/marketplace/actions/publish-docker
       - name: Publish containers
@@ -50,5 +52,4 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      - name: Tests
-        run: cargo test
+      - run: docker run -t -v `pwd`:/test $TEST_CONTAINER
