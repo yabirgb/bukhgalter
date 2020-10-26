@@ -48,10 +48,14 @@ jobs:
   test:
     needs: [rebuildContainer]
     runs-on: ubuntu-latest
-    container:
-      image: yabirgb/bukhgalter:latest
-      options: --user 1000
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      - run: docker run -t -v `pwd`:/test $TEST_CONTAINER
+        run: |
+          if test -f "DOCKER_USER"; then
+            echo "Usuario de Docker alternativo"
+            user=`cat DOCKER_USER`
+          fi
+          export CONTAINER=${user}/${repo}
+          docker run -t -v `pwd`:/test yabirgb/bukhgalter:latest
+
