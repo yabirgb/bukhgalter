@@ -2,9 +2,10 @@
 
 ## Hito 3 
 
-- Se ha creado un contenedor de docker para tests documentado en [contenerizacion.md](contenerizacion.md)
+- Se ha creado un contenedor de docker para tests documentado en [contenerizacion.md](contenerizacion.md).
 - Se ha documentado como se ha integrado el contenedor de docker en [CI](CI.md) y como se ha desplegado.
 - También se han redactado los [criterios](criterios.md) y precauciones que se han tenido.
+- Tras los comentarios también se ha añadido una sección de la configuración en [dockerhub](docs/dockerhub.md).
 
 ## Hito 2 (REENVIO)
 

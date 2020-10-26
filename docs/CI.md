@@ -64,7 +64,7 @@ problemas:
   buscaba.
 - Además se ha encontrado un problema con la ejecución de los tests en el
   contenedor usando un usuario distinto al de root. Este problema se ha 
-  discutido en [contenerizacion](contenerizacion.md)
+  discutido en [contenerizacion](contenerizacion.md).
 
 ## Fuentes
 

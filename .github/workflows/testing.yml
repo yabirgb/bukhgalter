@@ -23,14 +23,14 @@ jobs:
         #      - '.github/**'
 
       # https://github.com/marketplace/actions/publish-docker
-      - name: Publish containers
-        if: steps.filter.outputs.core == 'true'
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          name: yabirgb/bukhgalter
-          dockerfile: ./dockerfiles/testing/slim/Dockerfile
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      #- name: Publish containers
+      #  if: steps.filter.outputs.core == 'true'
+      #  uses: elgohr/Publish-Docker-Github-Action@master
+      #  with:
+      #    name: yabirgb/bukhgalter
+      #    dockerfile: ./dockerfiles/testing/slim/Dockerfile
+      #    username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #    password: ${{ secrets.DOCKERHUB_TOKEN }}
       # https://docs.github.com/en/free-pro-team@latest/packages/getting-started-with-github-container-registry/migrating-to-github-container-registry-for-docker-images
       
       # https://github.com/marketplace/actions/docker-login#github-container-registry

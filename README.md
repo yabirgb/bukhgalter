@@ -33,7 +33,9 @@ proyecto.
 - [Un contenedor para ejecutar la aplicación](dockerfiles/alpine/Dockerfile)
 
 En el archivo de [CI](docs/CI.md) explico como se ha integrado docker en los
-tests y como se despliega el contenedor de tests en dockerhub.
+tests y como se despliega el contenedor de tests en dockerhub. A raiz de un comentario 
+en el grupo de Telegram he cambiado y he configurado también la acción desde dockerhub
+para que se genere el contenedor. Lo documento en el archivo [dockerhub](docs/dockerhub.md).
 
 Finalmente en el archivo de [criterios](docs/criterios.md) explico las
 precauciones que he tenido al crear los contenedores.
