@@ -49,7 +49,7 @@ jobs:
     needs: [rebuildContainer]
     runs-on: ubuntu-latest
     container:
-      image: $TEST_CONTAINER
+      image: yabirgb/bukhgalter:latest
       options: --user 1000
     steps:
       - name: Check out the repo
