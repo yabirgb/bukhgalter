@@ -49,13 +49,8 @@ jobs:
     needs: [rebuildContainer]
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repo
+      - name: Checkout module
         uses: actions/checkout@v2
-        run: |
-          if test -f "DOCKER_USER"; then
-            echo "Usuario de Docker alternativo"
-            user=`cat DOCKER_USER`
-          fi
-          export CONTAINER=${user}/${repo}
-          docker run -t -v `pwd`:/test yabirgb/bukhgalter:latest
+      - name: Check out the repo
+        run: docker run -t -v `pwd`:/test yabirgb/bukhgalter:latest
 
