@@ -2,7 +2,7 @@ on: push
 
 name: Testing workflow
 env:
-  - TEST_CONTAINER=yabirgb/bukhgalter:latest
+  TEST_CONTAINER: yabirgb/bukhgalter:latest
 
 jobs:
 
