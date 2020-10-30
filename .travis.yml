@@ -1,0 +1,10 @@
+language: ruby
+
+services:
+  - docker
+
+before_install:
+  - docker pull yabirgb/bukhgalter
+
+scripts:
+  - docker run -t -v `pwd`:/test yabirgb/bukhgalter:latest
