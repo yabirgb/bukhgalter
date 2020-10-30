@@ -1,10 +1,22 @@
+# Utilizo ruby como lenguaje base ya que no necesito ninguno en particular
+# y biene por defecto con travis
 language: ruby
 
+# Le indicamos que vamos a hacer uso de las herramientas de docker para 
+# que esten disponibles en la ejecución
 services:
   - docker
 
+# Como vamos a hacer uso del contenedor de docker generado por el proyecto
+# le indicamos que lo descargue del repositorio de docker hub antes de hacer 
+# nada
 before_install:
   - docker pull yabirgb/bukhgalter
 
+# Finalmente le indicamos que tiene que ejecutar el contenedor de igual
+# forma de la que se ejecutan en los tests de la asignatura
 scripts:
   - docker run -t -v `pwd`:/test yabirgb/bukhgalter:latest
+
+# No tenemos ninguna actividad que hacer post-ejecución de los tests
+# así que no incluimos tareas adicionales

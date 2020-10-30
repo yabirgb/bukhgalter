@@ -1,8 +1,44 @@
 # Integración continua
 
-## Testing
+## Integración continua con travis
 
-### Generación automática de los contenedores para testing
+Para utilizar `travis` en integración continua se han seguido los siguientes pasos:
+
+- He dado de alta el repositorio en la web de travis.
+- Se ha creado un archivo [.travis.yml](/.travis.yml) con la configuración 
+  que quiero que se ejecute.
+- Las ejecuciones de `travis` se pueden consultar en [la web de travis](https://travis-ci.com/github/yabirgb/bukhgalter/builds/).
+
+
+### Descipción del archivo `.travis.yml`
+
+      El archivo de travis incluyo comentarios de por qué se realza cada paso y 
+      la justificación
+
+      # Utilizo ruby como lenguaje base ya que no necesito ninguno en particular
+      # y biene por defecto con travis
+      language: ruby
+
+      # Le indicamos que vamos a hacer uso de las herramientas de docker para 
+      # que esten disponibles en la ejecución
+      services:
+        - docker
+
+      # Como vamos a hacer uso del contenedor de docker generado por el proyecto
+      # le indicamos que lo descargue del repositorio de docker hub antes de hacer 
+      # nada
+      before_install:
+        - docker pull yabirgb/bukhgalter
+
+      # Finalmente le indicamos que tiene que ejecutar el contenedor de igual
+      # forma de la que se ejecutan en los tests de la asignatura
+      scripts:
+        - docker run -t -v `pwd`:/test yabirgb/bukhgalter:latest
+
+      # No tenemos ninguna actividad que hacer post-ejecución de los tests
+      # así que no incluimos tareas adicionales
+
+## Generación automática de los contenedores para testing
 
 Los contenedores para testing son generados automática cada vez que es
 necesario. Para ello he usado una estrategia en [github actions](https://github.com/yabirgb/bukhgalter/blob/master/.github/workflows/testing.yml) que se ejecuta 
@@ -19,7 +55,7 @@ de manera inteligente:
   ejecución de los tests utilizando el contenedor que se encuentra disponible en
   `dockerhub`.
 
-### Cómo se ha configurado el despliegue
+## Cómo se ha configurado el despliegue
 
 Para realizar el despliegue en `dockerhub` se han seguido los siguientes pasos:
 
@@ -46,7 +82,7 @@ En el caso de los repositorios de `github` ha sido necesario crear un token de
 acceso que también se ha añadido a los `secrets` del repositorio y se ha añadido
 también al `actions` para los tests.
 
-### Problemas encontrados
+## Problemas encontrados
 
 Durante el desarrollo del archivo para el `workflow` me he encontrado con varios
 problemas:
@@ -68,6 +104,7 @@ problemas:
 
 ## Fuentes
 
+- [Travis y github](https://medium.com/mobileforgood/patterns-for-continuous-integration-with-docker-on-travis-ci-71857fff14c5)
 - [https://github.com/marketplace/actions/docker-login#github-container-registry](https://github.com/marketplace/actions/docker-login#github-container-registry)
 - [https://github.com/marketplace/actions/publish-docker](https://github.com/marketplace/actions/publish-docker)
 - [https://github.com/dorny/paths-filter](https://github.com/dorny/paths-filter)
