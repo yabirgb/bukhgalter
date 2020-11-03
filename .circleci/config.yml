@@ -1,0 +1,11 @@
+version: 2.1
+
+jobs:
+ build:
+  # Le decimos que utilizamos una maquina con linux
+   machine: true
+   steps:
+      # Hacemos checkout del repo
+      - checkout
+      # Ejercutamos el contenedor de docker
+      - run: docker run -t -v `pwd`:/test yabirgb/bukhgalter:latest
