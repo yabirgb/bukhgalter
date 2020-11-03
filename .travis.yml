@@ -2,7 +2,8 @@
 # cargo, rustc para compilar etc.
 language: rust
 
-# le indicamos las versiones con las que queremos trabajar
+# le indicamos las versiones con las que queremos trabajar. Hacemos uso
+# de la ejecución múltiple de travis
 rust:
   # marcamos la ultima version disponible, en general es la que tiene
   # la gente que programa con rust
