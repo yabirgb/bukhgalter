@@ -1,22 +1,27 @@
-# Utilizo ruby como lenguaje base ya que no necesito ninguno en particular
-# y biene por defecto con travis
-language: ruby
+# Elegimos rust como lenguaje. Esto nos probee con utilidades como 
+# cargo, rustc para compilar etc.
+language: rust
 
-# Le indicamos que vamos a hacer uso de las herramientas de docker para 
-# que esten disponibles en la ejecución
-services:
-  - docker
+# le indicamos las versiones con las que queremos trabajar
+rust:
+  # marcamos la ultima version disponible, en general es la que tiene
+  # la gente que programa con rust
+  - stable
+  # Marcamos la version beta para conocer posibles problemas en versiones
+  # futuras
+  - beta
+  # Marcamos la version 1.31 porque es la primera version en la que se incluye
+  # la especificación 2018. Con anterioridad a esta version no nos interesa probar
+  - 1.31
 
-# Como vamos a hacer uso del contenedor de docker generado por el proyecto
-# le indicamos que lo descargue del repositorio de docker hub antes de hacer 
-# nada
-before_install:
-  - docker pull yabirgb/bukhgalter
+cache: cargo
 
 # Finalmente le indicamos que tiene que ejecutar el contenedor de igual
 # forma de la que se ejecutan en los tests de la asignatura
 scripts:
-  - docker run -t -v `pwd`:/test yabirgb/bukhgalter:latest
+  - cargo check
+  - cargo build
+  - cargo test
 
 # No tenemos ninguna actividad que hacer post-ejecución de los tests
 # así que no incluimos tareas adicionales
