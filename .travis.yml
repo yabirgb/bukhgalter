@@ -26,7 +26,7 @@ cache: cargo
 # Finalmente le indicamos que tiene que ejecutar el contenedor de igual
 # forma de la que se ejecutan en los tests de la asignatura
 scripts:
-  - make checkt
+  - make check
   - make build
   - make test
 
