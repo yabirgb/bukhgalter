@@ -1,0 +1,30 @@
+# Elegimos rust como lenguaje. Esto nos probee con utilidades como 
+# cargo, rustc para compilar etc.
+language: rust
+
+# le indicamos las versiones con las que queremos trabajar. Hacemos uso
+# de la ejecución múltiple de travis
+rust:
+  # marcamos la ultima version disponible, en general es la que tiene
+  # la gente que programa con rust
+  - stable
+  # Marcamos la version beta para conocer posibles problemas en versiones
+  # futuras
+  - beta
+  # Marcamos la version 1.31 porque es la primera version en la que se incluye
+  # la especificación 2018. Con anterioridad a esta version no nos interesa probar
+  # - 1.31.0
+  # Tras haber probado esta es la versión minima que ejecuta los tests
+  - 1.40.0
+
+cache: cargo
+
+# Finalmente le indicamos que tiene que ejecutar el contenedor de igual
+# forma de la que se ejecutan en los tests de la asignatura
+scripts:
+  - cargo check
+  - cargo build
+  - cargo test
+
+# No tenemos ninguna actividad que hacer post-ejecución de los tests
+# así que no incluimos tareas adicionales
