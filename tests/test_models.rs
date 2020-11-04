@@ -283,3 +283,27 @@ fn test_pay_by_debtor_not_found(mut account: Account, debtor: Debtor, item: Item
     assert_eq!(payment.unwrap_err(), errors::AccountError::DebtorNotFound );
 
 }
+
+#[rstest]
+fn test_remove_debtor(mut account: Account, debtor: Debtor, item: Item){
+    account.add_debtor(debtor.clone());
+    account.add_debtor(debtor.clone());
+    account.add_debtor(debtor.clone());
+    account.add_item(item.clone());
+    account.add_debtor_with_fractions(debtor.clone(), vec![0.2,0.3,0.2,0.3]);
+
+    // constant just for this test. Doesn't take any special value
+    account.debtors[1].rename_debtor("Larry".to_string());
+
+    let prev_debt = account.total_debt();
+
+    account.remove_debtor("Larry".to_string());
+
+
+
+    assert_eq!(prev_debt, account.total_debt());
+    assert_eq!(account.get_fractions(), vec![0.3,0.3,0.4]);
+    for debtor in account.debtors{
+        assert_neq!(debtor.name, "Larry".to_string());
+    }
+}

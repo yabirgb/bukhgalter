@@ -1,3 +1,5 @@
+use std::cmp;
+
 use miniserde::{Serialize, Deserialize};
 use super::errors;
 
@@ -65,7 +67,19 @@ impl Debtor{
     }
 
     pub fn set_fraction(&mut self, new_fraction: f64){
-        self.fraction = new_fraction;
+        self.fraction = cmp::min(new_fraction, 1);
+    }
+
+    pub fn increment_fraction(&mut self, increment: f64){
+        if increment < 1{
+            self.fraction = self.fraction + increment
+        }
+        
+        self.fraction = cmp::min(self.fraction, 1);
+    }
+
+    pub fn increment_paid(&mut self, increment:f64){
+        self.paid_amount += increment;
     }
 
     pub fn toggle_paid(&mut self){
@@ -127,4 +141,28 @@ impl Account{
             None => Err(errors::AccountError::DebtorNotFound)
         }
     }
+
+    // Eliminar un deudor de la lista de deudores
+    pub fn remove_debtor(&mut self, debtor_name: String){
+        let debtor_position = self.debtors.iter().position(|x| x.name.eq(&debtor_name));
+        match debtor_position {
+            Some(position) => { 
+                let frac = self.debtors[position].fraction;
+                let paid = self.debtors[position].paid_amount;
+                let split_between = (self.debtors.len - 1) as f64;
+                let splitted_frac = frac / split_between;
+                let splitter_paid = paid / split_between;
+
+                for (pos, debtor) in self.debtors.iter_mut().enumerate(){
+                    if pos != position{
+                        debtor.increment_fraction(splitted_frac);
+                        debtor.increment_paid(splitter_paid);
+                    }
+                }
+
+            },
+            None => Err(errors::AccountError::DebtorNotFound)
+        }
+    }
+
 }
