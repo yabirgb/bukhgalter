@@ -1,5 +1,38 @@
 # Integración continua
 
+## Servicios elegidos y por qué
+
+He elegido dos servicios de integración continua: travis y circle-ci.
+
+Motivos para elegir travis:
+
+- No incluye limitaciones con el paquete `github education`.
+- Ejecuciones para varias versiones del lenguaje rápidas.
+- Un servicio robusto y que da soporte a muchos lenguajes de forma nativa, entre ellos rust.
+- Sintaxis muy intuitiva en el archivo de configuración.
+
+Motivos para elegir circle-ci:
+- Builds rápidas.
+- Pack gratuito para proyectos open-source.
+- Integración sencilla con github.
+- Buena documentación.
+
+Mi estrategia con los sistemas de CI ha sido la siguiente:
+
+Para probar la estabilidad de mi aplicación con los cambios en el lenguaje he
+utilizado la ejecución en travis de distintas versiones relevantes como son el
+canal `stable` (para verificar que cualquiera con una instalación estandar puede
+ejecutar el proyecto ) y el canal `beta` (para predicir posibles problemas con
+cambios en aspectos que van a entrar al lenguaje). Además de estas versiones
+compruebo cual es la última versión más antigua que soporta mi aplicación.
+Actualmente tras haber realizado distintas pruebas esta es la versión `1.40.0`.
+
+Para comprobar que los cambios introducidos no introducen ningún fallo uso una
+versión estable que es la cual se esta usando para el desarrollo. He utilizado
+la versión 1.44.0 que también se emplea en el contenedor de docker del proyecto
+desarrollado en el hito anterior. De esta manera se comprueba que respecto a la
+versión referencia los tests ejecutan de manera correcta.
+
 ## Integración continua con travis
 
 Para utilizar `travis` en integración continua se han seguido los siguientes pasos:
@@ -58,7 +91,7 @@ versiones de rust para ejecutar los tests. Estas han sido:
   producían errores con `cargo` al instalar las dependencias.
 
 También hago uso de la cache de travis para mejorar la velocidad de ejecución de
-los tests. Esta técnica por defecto guarda el directorio en el `$HOME` de cargo
+los tests. Esta técnica por defecto guarda el directorio de cargo en `$HOME`
 por lo que evitamos descargar siempre todas las dependencias del proyecto y de
 cargo. Además se guarda el `target` del proyecto por lo que hacemos uso de las
 `builds` incrementales de `rust` y la ejecución de los tests es más rápida.
@@ -101,6 +134,39 @@ más adelante.
 
     # No tenemos ninguna actividad que hacer post-ejecución de los tests
     # así que no incluimos tareas adicionales
+
+## Configuración de circle-ci
+
+El objetivo para la CI de circle-ci es el que se ha explicado con anterioridad.
+La decisión de usar circle-ci para el contenedor de docker ha sido tomada tras
+haber realizado una comparación entre las dos plataformas, travis y circle-ci.
+Los resultados para dichas pruebas se pueden consultar en el historial de
+[travis](https://travis-ci.com/github/yabirgb/bukhgalter/jobs/421351959) y el de [circle-ci](https://app.circleci.com/pipelines/github/yabirgb/bukhgalter/4/workflows/fce5b2db-c706-4c52-a7a5-95f987f91554/jobs/4).
+
+En este caso la build de circle-ci ha sido más rápida para ejecutar el
+contenedor de docker que la de travis y por eso me he decantado por usar
+circle-ci para este cometido. 
+
+Respecto al archivo de configuración
+
+    version: 2.1
+    # Trabajos que se van a hacer
+    jobs:
+    build:
+      # Le decimos que utilizamos una maquina con linux
+      machine: true
+      steps:
+          # Hacemos checkout del repo
+          - checkout
+          # Ejercutamos el contenedor de docker
+          - run: docker run -t -v `pwd`:/test yabirgb/bukhgalter:latest
+
+Como vemos la sintaxis es muy simple y nos permite ejecutar de manera sencilla
+nuestros tests desde el contenedor de docker. Cabe destacar que ha diferencia de
+travis, aquí no necesitamos indicar que vamos a trabajar con docker. También al
+igual que travis podemos especificar que tipo de máquina queremos para los
+tests. Me he decantado por probar solo en linux porque windows o osx no me
+ofrecen ninguna ventaja respecto a lo que quiero realizar.
 
 ## Generación automática de los contenedores para testing
 
