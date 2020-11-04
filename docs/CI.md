@@ -49,6 +49,9 @@ Para utilizar `travis` en integración continua se han seguido los siguientes pa
     # cargo, rustc para compilar etc.
     language: rust
 
+    # Instalamos el gestor de tareas elegido para el proyecto
+    install: make
+
     # le indicamos las versiones con las que queremos trabajar. Hacemos uso
     # de la ejecución múltiple de travis
     rust:
@@ -64,14 +67,15 @@ Para utilizar `travis` en integración continua se han seguido los siguientes pa
       # Tras haber probado esta es la versión minima que ejecuta los tests
       - 1.40.0
 
+    # Añadimos los directorios de cargo a la cache
     cache: cargo
 
     # Finalmente le indicamos que tiene que ejecutar el contenedor de igual
     # forma de la que se ejecutan en los tests de la asignatura
     scripts:
-      - cargo check
-      - cargo build
-      - cargo test
+      - make check
+      - make build
+      - make test
 
     # No tenemos ninguna actividad que hacer post-ejecución de los tests
     # así que no incluimos tareas adicionales
