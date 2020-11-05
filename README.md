@@ -25,8 +25,8 @@ versión y que issues se han cerrado.
 
 ## Integración continua
 
-Respecto a los sistemas de integración continua se han descrito el propósito de
-cada sistema usado y cómo se ha usado en la [documentación en el capítulo de CI](docs/CI.md).
+Respecto a los sistemas de integración continua, se han descrito cual ha sido su propósito
+de uso [en el capítulo de CI de la documentación](docs/CI.md).
 
 Se han configurado como sistemas de CI:
 
