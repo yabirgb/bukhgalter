@@ -1,7 +1,10 @@
 use std::cmp;
+use math::round;
 
 use miniserde::{Serialize, Deserialize};
 use super::errors;
+
+const PRECISION: i8 = 2; // precision for the operations
 
 /// Struct que abstrae la identidad de un deudor. Esta estructura 
 /// se utiliza para encapsular los datos necesarios para cumplir con
@@ -67,15 +70,18 @@ impl Debtor{
     }
 
     pub fn set_fraction(&mut self, new_fraction: f64){
-        self.fraction = cmp::min(new_fraction, 1);
+        if new_fraction < 0.0{
+            self.fraction = 0.0
+        }
+        self.fraction = if new_fraction < 1.0 {round::floor(new_fraction, PRECISION)} else {1.0};
     }
 
     pub fn increment_fraction(&mut self, increment: f64){
-        if increment < 1{
-            self.fraction = self.fraction + increment
+        if increment < 1.0{
+            self.fraction = round::floor(self.fraction + increment, PRECISION);
         }
         
-        self.fraction = cmp::min(self.fraction, 1);
+        self.fraction = if self.fraction < 1.0 {self.fraction} else {1.0};
     }
 
     pub fn increment_paid(&mut self, increment:f64){
@@ -149,7 +155,7 @@ impl Account{
             Some(position) => { 
                 let frac = self.debtors[position].fraction;
                 let paid = self.debtors[position].paid_amount;
-                let split_between = (self.debtors.len - 1) as f64;
+                let split_between = (self.debtors.len() - 1) as f64;
                 let splitted_frac = frac / split_between;
                 let splitter_paid = paid / split_between;
 
@@ -160,9 +166,22 @@ impl Account{
                     }
                 }
 
+                self.debtors.remove(debtor_position.unwrap());
+
             },
-            None => Err(errors::AccountError::DebtorNotFound)
+            None => {}  
         }
+    }
+
+    // HU5 get the fractions of the total associated to each debtor
+
+    pub fn get_fractions(&self) -> Vec<f64> {
+        let mut fractions = Vec::new();
+        for debtor in self.debtors.iter(){
+            fractions.push(debtor.fraction);
+        }
+
+        fractions
     }
 
 }
