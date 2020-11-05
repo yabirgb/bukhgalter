@@ -1,4 +1,5 @@
 use rstest::*;
+use math::round;
 
 use bukhgalter::models::models::{Debtor, Item, Account};
 use bukhgalter::models::errors;
@@ -304,6 +305,6 @@ fn test_remove_debtor(mut account: Account, debtor: Debtor, item: Item){
     assert_eq!(prev_debt, account.total_debt());
     assert_eq!(account.get_fractions(), vec![0.3,0.3,0.4]);
     for debtor in account.debtors{
-        assert_neq!(debtor.name, "Larry".to_string());
+        assert_ne!(debtor.name, "Larry".to_string());
     }
 }
