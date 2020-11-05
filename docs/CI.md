@@ -33,6 +33,9 @@ la versión 1.44.0 que también se emplea en el contenedor de docker del proyect
 desarrollado en el hito anterior. De esta manera se comprueba que respecto a la
 versión referencia los tests ejecutan de manera correcta.
 
+En el archivo de [setup](registroCI.md) se puede encontrar el proceso de registro
+en los sistemas elegidos.
+
 ## Integración continua con travis
 
 Para utilizar `travis` en integración continua se han seguido los siguientes pasos:
@@ -113,8 +116,8 @@ funcionalidad de `matrix execution` que en travis funciona de manera rápida. **
 ejecución del contenedor de docker** se ha realizado en `circleci`, documentado
 más adelante.
 
-    El archivo de travis incluyo comentarios de por qué se realza cada paso y 
-    la justificación
+El archivo de travis incluyo comentarios de por qué se realza cada paso y 
+la justificación
 
     # Utilizo ruby como lenguaje base ya que no necesito ninguno en particular
     # y biene por defecto con travis

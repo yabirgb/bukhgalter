@@ -23,6 +23,16 @@ versión y que issues se han cerrado.
 - Como **gestor de tareas** se ha decidido utilizar `make`. [Justificación](/docs/herramientas.md)
 - `Cargo` con su utilidad de `testing` (`cargo test`) sera la **herramienta de tests** que se use. [Justificación](/docs/herramientas.md)
 
+## Integración continua
+
+Respecto a los sistemas de integración continua se han descrito el propósito de
+cada sistema usado y cómo se ha usado en la [documentación en el capítulo de CI](docs/CI.md).
+
+Se han configurado como sistemas de CI:
+
+- [Circle-CI](https://app.circleci.com/pipelines/github/yabirgb/bukhgalter)
+- [Travis](https://travis-ci.com/github/yabirgb/bukhgalter/builds/)
+
 ## Docker
 
 En el archivo de [contenerizacion](docs/contenerizacion.md) hago una explicación
