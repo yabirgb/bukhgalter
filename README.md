@@ -30,7 +30,10 @@ de uso [en el capítulo de CI de la documentación](docs/CI.md).
 
 Se han configurado como sistemas de CI:
 
-- [Circle-CI](https://app.circleci.com/pipelines/github/yabirgb/bukhgalter)
+- [Circle-CI](https://app.circleci.com/pipelines/github/yabirgb/bukhgalter) (hay que loguearse para ver las builds)
+
+![circle](docs/images/circle_ci.png)
+
 - [Travis](https://travis-ci.com/github/yabirgb/bukhgalter/builds/)
 
 ## Docker

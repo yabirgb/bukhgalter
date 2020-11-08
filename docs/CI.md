@@ -150,6 +150,10 @@ haber realizado una comparación entre las dos plataformas, travis y circle-ci.
 Los resultados para dichas pruebas se pueden consultar en el historial de
 [travis](https://travis-ci.com/github/yabirgb/bukhgalter/jobs/421351959) y el de [circle-ci](https://app.circleci.com/pipelines/github/yabirgb/bukhgalter/4/workflows/fce5b2db-c706-4c52-a7a5-95f987f91554/jobs/4).
 
+Adjunto una captura del desplegado del contenedor en circle-ci
+
+![](images/circle_ci_build.png)
+
 En este caso la build de circle-ci ha sido más rápida para ejecutar el
 contenedor de docker que la de travis y por eso me he decantado por usar
 circle-ci para este cometido. 
