@@ -2,3 +2,4 @@ entidad: src/models/models.rs
 lenguaje: rust
 test: tests/test_models.rs
 taskfile: Makefile
+URL: https://bukhgalter-collaborators.vercel.app/api/collaborators
