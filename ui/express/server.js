@@ -9,10 +9,10 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 router.get('/', (req, res) => {
   res.writeHead(200, { 'Content-Type': 'text/html' });
-  res.write('<h1>Hello from Express.js!</h1>');
+  res.sendFile(path.join(__dirname, '../public/index.html'));
   res.end();
 });
-router.get('/health', (req, res) => res.json({ "status": "Running" }));
+router.get('/health', (req, res) => res.json({ "status": "running" }));
 router.post('/', (req, res) => res.json({ postBody: req.body }));
 
 app.use(bodyParser.json());
