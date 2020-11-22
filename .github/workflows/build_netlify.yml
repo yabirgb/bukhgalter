@@ -1,0 +1,21 @@
+name: Publish website
+on: push 
+
+jobs:
+  publishWebsite:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            core:
+              - 'ui/**'
+        #      - '.github/**'
+
+      - name: Publish
+        if: steps.filter.outputs.core == 'true'
+        run: curl -X POST -d {} ${{ secrets.netlify }}
+          
