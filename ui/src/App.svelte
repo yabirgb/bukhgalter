@@ -1,5 +1,4 @@
 <script>
-	export let name;
 	import Tailwindcss from './Tailwindcss.svelte';
 	import Collaborators from './views/Collaborators.svelte'
 </script>
@@ -10,7 +9,7 @@
 	<nav id="header" class="fixed w-full z-30 top-0 text-white bg-white">
       <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
         <div class="pl-4 flex items-center">
-          <a class="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">
+          <a class="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="/">
             Bukhgalter
           </a>
         </div>
@@ -52,7 +51,7 @@
         </div>
         <!--Right Col-->
         <div class="w-full md:w-3/5 py-6 text-center">
-          <img class="w-full md:w-4/5 z-50" src="/images/shared.jpg" />
+          <img alt="friend sharing table" class="w-full md:w-4/5 z-50" src="/images/shared.jpg" />
         </div>
       </div>
     </div>
