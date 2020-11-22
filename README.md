@@ -16,6 +16,19 @@ La lista completa de cambios en cada versión ha sido documentada en un archivo
 [changelog](docs/changelog.md). En dicho archivo se encuentran los cambios de cada 
 versión y que issues se han cerrado.
 
+## Serverless
+
+Se ha documentado la parte [serverless](docs/serverless.md) de la aplicación en
+la documentación  del proyecto. Se han creado un función en rust que devuelve un
+`json` con información. Por motivos técnicos ha sido alojada en otro repositorio
+[https://github.com/yabirgb/bukhgalter-collaborators](https://github.com/yabirgb/bukhgalter-collaborators).
+
+También se ha creado una interfaz web usando javascript y el framework svelte. Esta
+interfaz se encuentra en la carpeta [ui](https://github.com/yabirgb/bukhgalter/tree/master/ui)
+y está [desplegada en netlify](https://bukhgalter.netlify.app/).
+
+Para más detalles remitirse a la documentación.
+
 ## Herramientas
 
 - Como **lenguaje de programación para el proyecto** se ha elegido

@@ -1,5 +1,12 @@
 # Cambios realizados entre hitos
 
+## Hito 5
+
+- Se ha creado una función lambda para mostrar datos sobre los colaboradores [http://bukhgalter-collaborators.vercel.app/](http://bukhgalter-collaborators.vercel.app/), [https://github.com/yabirgb/bukhgalter-collaborators](https://github.com/yabirgb/bukhgalter-collaborators)
+
+- Se ha desarrollado una [interfaz web](https://github.com/yabirgb/bukhgalter/tree/master/ui) usando el framework svelte para la UI
+
+
 ## Hito 3 
 
 - Se ha creado un contenedor de docker para tests documentado en [contenerizacion.md](contenerizacion.md).
