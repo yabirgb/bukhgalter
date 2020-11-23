@@ -7,7 +7,6 @@
     "serve": "nodemon server-local.js",
     "dev": "rollup -c -w",
     "start": "sirv public",
-    "buildbot": "netlify-lambda build bot",
     "devNetlify": "netlify-lambda serve functions"
   },
   "main": "functions/server.js",

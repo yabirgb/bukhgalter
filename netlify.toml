@@ -1,5 +1,2 @@
 [build]
     base = "ui/"
-    command = "npm run build && npm run buildLambda"
-    functions = "functions"
-    publish = "public/"
