@@ -23,9 +23,11 @@ la documentación  del proyecto. Se han creado un función en rust que devuelve 
 `json` con información. Por motivos técnicos ha sido alojada en otro repositorio
 [https://github.com/yabirgb/bukhgalter-collaborators](https://github.com/yabirgb/bukhgalter-collaborators).
 
-También se ha creado una interfaz web usando javascript y el framework svelte. Esta
-interfaz se encuentra en la carpeta [ui](https://github.com/yabirgb/bukhgalter/tree/master/ui)
-y está [desplegada en netlify](https://bukhgalter.netlify.app/).
+También se ha creado un bot de telegram desplegado en netlify
+[@bukhgalterbot](http://t.me/bukhgalterbot) y una interfaz web usando javascript y
+el framework svelte. Esta interfaz se encuentra en la carpeta
+[ui](https://github.com/yabirgb/bukhgalter/tree/master/ui) y está 
+[desplegada en netlify](https://bukhgalter.netlify.app/).
 
 Para más detalles remitirse a la documentación.
 

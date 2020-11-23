@@ -61,10 +61,16 @@ El repositorio ha sido [enlazado con vercel](vercel.md)
 
 ## Desplegado de la UI
 
-Para completar mi objetivo con la HU he creado una pequeña interfaz de usuario
-que por ahora muestra los colaboradores del proyecto en el landing page. Mi objetivo
-es mover esta sección en un futuro cuando avance más el proyecto. El desplegado 
-lo he realizado en netlify y está disponible en [https://bukhgalter.netlify.app/](https://bukhgalter.netlify.app/).
+Para completar el objetivo con la HU mi intención era desplegar una función
+serverless que me devolviera un archivo html que contuviese un SPA pero he sido
+incapaz de lograrlo de manera correcta por problemas en como se devuelven los
+archivos estáticos. Como alternativa he desplegado un bot de Telegram,
+[@bukhgalterbot](http://t.me/bukhgalterbot) . 
+
+Respecto al SPA que había creado lo realicé porque en local si me funcionaba
+pero en netlify no por como funciona el almacenamiento de archivos. Dado que
+esta web también interactua con la app he decido dejarla disponible
+[https://bukhgalter.netlify.app/](https://bukhgalter.netlify.app/).
 
 ![](images/deploy_ui.png)
 
@@ -77,15 +83,58 @@ es muy bueno y no he notado que me haga falta nada que no tenga con netlify.
 
 Respecto al lenguaje utilizado me he decantado por usar `node` por los siguientes motivos:
 
-- Los SPA suelen usar todos js y con node puedo trabajar en ellos.
-- Svelte es una utilidad hecha en js que proporciona herramientas para
-  desarrollar usando node y después compilar el sitio web en un archivo `.js`.
-- Netlify soporta de manera nativa `js`.
+- Netlify le da soporte a node
+- node es una herramienta popular para hacer bots de Telegram.
+- He notado que no hay ninguna ventaja considerables en términos de rendimiento
+  por usar un lenguaje compilado frente a uno que no lo sea.
+- Tengo más dominio sobre node que otras alternativas consideradas como go.
 
 El desplegado lo he documentado en un archivo sobre [netlify](netlify.md)
 
 He obtado usar este repositorio como un `monorepo` con la excepción de la
 función serverless de `rust`. La interfaz se encuentra en la carpeta [ui](https://github.com/yabirgb/bukhgalter/tree/master/ui).
+
+## Diseño del bot
+
+Para el desarrollo del bot me he valido de la librería que me ha salido en
+github como más popular, [Telegraf](https://telegraf.js.org/#/). He elegido esta
+porque tenía lo que me hacía falta para poder crear el bot y en el ejemplo he
+visto que era fácil de usar. También he usado el ejemplo del propio [netlify](https://github.com/jokarz/netlify-fauna-telegram-bot)
+para desplegar bots de telegram.
+
+En el código he declaro las variables importantes como variables de entorno
+
+- El token de Telegram ya que es contenido crítico.
+- La url de la api ya que puede cambiar y puede interesar usar otra sin cambiar el código.
+
+La manera de programar es la estandard salvo con la excepción de cómo se ejecuta el mismo
+
+      exports.handler = async (event, ctx, callback) => {
+         await bot.handleUpdate(JSON.parse(event.body));
+         return callback(null, { statusCode: 200 });
+      };
+
+De esta manera le decimos que en lugar de hacer pooling tiene que escuchar las
+solicitudes que reciba desde el endpoint.
+
+Para enlazar Telegram con el bot mediante he tenido que hacer una petición a la url 
+
+   https://api.telegram.org/bot{your_bot_token}/setWebhook?url={your_netlify_domain_url}/api/bot
+
+de manera que obtendo el siguiente mensaje
+
+      {
+         "ok": true,
+         "result": true,
+         "description": "Webhook was set"
+      }
+
+y queda enlazado el bot con telegram mediante el uso de webhooks.
+
+El bot cuenta con dos ordenes básicas:
+
+- `/collaborators`: Muestra la lista de colaboradores que devuelve la API desde vercel.
+- `/collaborator [name]`: Si hay un colaborador con ese nombre de usuario muestra su información.
 
 ## Problemas encontrados
 

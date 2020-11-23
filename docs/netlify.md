@@ -17,12 +17,21 @@ creado un archivo [netlify.toml](https://github.com/yabirgb/bukhgalter/blob/mast
 
     [build]
     base = "ui/"
-    publish = "public/"
-    command = "npm run build"
 
-En este documento le estamos indicando que la carpeta en la que tiene que
-trabajar en la carpeta `ui`. Además le decimos que tiene que publicar el contenido 
-de la carpeta `publish` tras ejecutar la orden `npm run build`. 
+En este documento le indicamos que queremos desplegar el contenido que haya en
+la carpeta `ui`. En esta carpeta he colocado otro archivo con
+
+    [build]
+        command = "npm run build && npm run buildLambda"
+        functions = "functions"
+        publish = "public/"
+
+que le indica la orden que tiene que usar para compilar el sitio web y donde se
+encuentran las funciones serverless.
+
+También he declaro variables de entorno desde la interfaz que son usadas por el bot de telegram
+
+![](images/variables.png)
 
 Con estas indicaciones netlify ya sabe como debe construir nuestro proyecto y
 las builds se activan de manera automática cada vez que se hace commit. Como
@@ -30,6 +39,10 @@ las builds se activan de manera automática cada vez que se hace commit. Como
 está disponible en [bukhgalter.netlify.app/](bukhgalter.netlify.app/). Se pueden
 consultar las estadísticas de la construcción en
 [https://app.netlify.com/sites/bukhgalter/deploys/5fbaa4e84c0b4b61d33ffdc2](https://app.netlify.com/sites/bukhgalter/deploys/5fbaa4e84c0b4b61d33ffdc2)
+
+El bot de telegram funciona de manera correcta
+
+![](images/telegram.png)
 
 El sitio queda finalmente así:
 
