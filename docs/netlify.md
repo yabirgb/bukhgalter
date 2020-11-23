@@ -34,7 +34,11 @@ También he declaro variables de entorno desde la interfaz que son usadas por el
 ![](images/variables.png)
 
 Con estas indicaciones netlify ya sabe como debe construir nuestro proyecto y
-las builds se activan de manera automática cada vez que se hace commit. Como
+las builds se activan de manera automática cada vez que se hace commit.
+
+![](images/deploys.png)
+
+ Como
 último paso le he asignado un dominio desde la interfaz de netlify. El proyecto
 está disponible en [bukhgalter.netlify.app/](bukhgalter.netlify.app/). Se pueden
 consultar las estadísticas de la construcción en
