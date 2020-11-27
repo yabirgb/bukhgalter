@@ -16,7 +16,7 @@ con la que pueda interactuar para obtener esta información.
 ## Elección de la plataforma
 
 Al estar mi código desarrollado en _Rust_ he encontrado dificultades para
-encontrar plataformas con buen soporte. Me he decantado por **Vercel** que,
+encontrar plataformas con buen soporte. Me he decantado por **Vercel** ([click para más información](https://github.com/yabirgb/bukhgalter/blob/master/docs/vercel.md)) que,
 aunque no lo soporta de manera oficial, sí cuenta con soporte para Rust hecho
 por la comunidad. He descartado plataformas como _azure_ por no contar con un
 soporte bien documentado para _Rust_ o _aws_ por requerir una configuración 
@@ -81,7 +81,7 @@ esta web también interactua con la app he decido dejarla disponible
 
 ### Criterios que he seguido
 
-En primer lugar me he decantado por netlify porque creo que cuenta con muchas herramientas
+En primer lugar me he decantado por netlify ([click para más información](https://github.com/yabirgb/bukhgalter/blob/master/docs/netlify.md)) porque creo que cuenta con muchas herramientas
 interesantes para desplegar páginas como la que quería crear. Además la interfaz es muy completa
 y me permite ver claramente lo que está pasando con el sitio web. El rendimiento que he experimentado
 es muy bueno y no he notado que me haga falta nada que no tenga con netlify.
