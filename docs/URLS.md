@@ -16,7 +16,7 @@ necesario, los campos que acepta en la petición y el tipo de los mismos.
 
     - `name` (required)(`String`): Nombre del evento que se crea
     - `debtors` (required)(`List[String]`): Lista de deudores. Al menos el usuario que la crea debe aparecer en ella.
-    - `total_debt` (`Float`)(`default=0.0`): Deuda total asociada al evento.
+    - `items` (`Dict[String,Float]`): Elementos asociados al evento con su deuda
 
 1. Se necesita listar la información de un evento
 
@@ -28,7 +28,7 @@ necesario, los campos que acepta en la petición y el tipo de los mismos.
 
     - `name` (`String`): Nombre del evento que se crea
     - `debtors` (`List[String]`): Lista de deudores. Al menos el usuario que la crea debe aparecer en ella.
-    - `total_debt` (`Float`): Deuda total asociada al evento.
+    - `items` (`Dict[String,Float]`): Elementos asociados al evento con su deuda
     - `debt_proportions` (`List[Float]`): Proporciones de deuda asignada a cada usuario.
     Condiciones: Las proporciones TIENEN que sumar 1.
 
