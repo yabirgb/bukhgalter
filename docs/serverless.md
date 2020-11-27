@@ -6,7 +6,12 @@ Se han creado dos historias de usuario
 ([HU6](https://github.com/yabirgb/bukhgalter/issues/56)
 [HU7](https://github.com/yabirgb/bukhgalter/issues/57)). Para cubrir a nivel de
 backend las necesidades de _HU7_ se ha decidido crear un servicio serverless 
-para listar las organizaciones que colaboran con el proyecto.
+para listar las organizaciones que colaboran con el proyecto. No se recibirá ningún
+parámetro de entrada ya que la HU no toma ninguno y el resultado que se devuelve
+es una lissta json con la información de los colaboradores.
+
+De cara al usuario, para que pueda ver esta información se creará una interfaz
+con la que pueda interactuar para obtener esta información.
 
 ## Elección de la plataforma
 
