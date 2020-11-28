@@ -1,7 +1,7 @@
 use std::cmp;
 use math::round;
 
-use miniserde::{Serialize, Deserialize};
+use serde::{Serialize, Deserialize};
 use super::errors;
 
 const PRECISION: i8 = 2; // precision for the operations
@@ -53,7 +53,9 @@ pub const DATE: &str = "date";
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Account{
     pub items: Vec<Item>,
-    pub debtors: Vec<Debtor>
+    pub debtors: Vec<Debtor>,
+    pub name: String,
+    pub id: String
 }
 
 pub const ITEMS: &str = "items";
