@@ -56,6 +56,8 @@ fn account() -> Account{
     Account{
         items: Vec::new(),
         debtors: Vec::new(),
+        id: "h32".to_string(),
+        name: "russell".to_string()
     }
 }
 
