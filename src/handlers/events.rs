@@ -35,21 +35,30 @@ fn json_body() -> impl Filter<Extract = (CreateAccount,), Error = warp::Rejectio
 pub fn events_end(
     db: Db,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-        (event_create(db.clone()))
+        event_create(db.clone())
+        .or(get_event(db.clone()))
 }
 
-/// POST /todos with JSON body
+/// POST /events/create with JSON body
 pub fn event_create(
     db: Db,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::path!("events")
+    warp::path!("events" / "create")
         .and(warp::post())
         .and(json_body())
         .and(with_db(db))
         .and_then(create_event)
 }
 
-
+/// GET /events/{events_id}
+pub fn get_event(
+    db: Db,
+) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+    warp::path!("events" / String)
+        .and(warp::get())
+        .and(with_db(db))
+        .and_then(event_info)
+}
 
 pub async fn event_info(id: String, db: Db) -> Result<impl warp::Reply, Infallible>{
 
