@@ -16,6 +16,12 @@ La lista completa de cambios en cada versión ha sido documentada en un archivo
 [changelog](docs/changelog.md). En dicho archivo se encuentran los cambios de cada 
 versión y que issues se han cerrado.
 
+## Microservicio
+
+La información relativa a la REST API que se expone se encuentra en la
+documentación sobre el [Microservicio](docs/microservicio.md) y en la de las
+[urls](docs/URLS.md).
+
 ## Serverless
 
 Se ha documentado la parte [serverless](docs/serverless.md) de la aplicación en
