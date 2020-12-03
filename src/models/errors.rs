@@ -20,5 +20,14 @@ pub enum AccountError {
     DebtorNotFound,
     #[error("Proportions don't sum one")]
     InvalidProportions,
+}
 
+#[derive(Error, Debug, PartialEq)]
+pub enum DataError {
+    #[error("Error storing entry")]
+    InsertError,
+    #[error("Object not found")]
+    NotFound,
+    #[error("I never fail")]
+    Infallible,
 }

@@ -2,7 +2,7 @@ use warp::{http::StatusCode, reject, Reply, Rejection, Filter};
 use serde::{Serialize, Deserialize};
 use crate::models::models::{Account, Debtor, Item};
 use std::convert::Infallible;
-use crate::models::Db;
+use crate::models::{MemoryDb, DataManager};
 use serde_json::json;
 
 extern crate rand;
@@ -22,7 +22,7 @@ pub struct CustomError{
     pub error: String
 }
 
-fn with_db(db: Db) -> impl Filter<Extract = (Db,), Error = Infallible> + Clone {
+fn with_db(db: impl DataManager) -> impl Filter<Extract = (impl DataManager,), Error = Infallible> + Clone {
     warp::any().map(move || db.clone())
 }
 
@@ -33,7 +33,7 @@ fn json_body() -> impl Filter<Extract = (CreateAccount,), Error = warp::Rejectio
 }
 
 pub fn events_end(
-    db: Db,
+    db: impl DataManager,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
         event_create(db.clone())
         .or(get_event(db.clone()))
@@ -41,7 +41,7 @@ pub fn events_end(
 
 /// POST /events/create with JSON body
 pub fn event_create(
-    db: Db,
+    db: impl DataManager,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     warp::path!("events" / "create")
         .and(warp::post())
@@ -52,7 +52,7 @@ pub fn event_create(
 
 /// GET /events/{events_id}
 pub fn get_event(
-    db: Db,
+    db: impl DataManager,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     warp::path!("events" / String)
         .and(warp::get())
@@ -60,20 +60,18 @@ pub fn get_event(
         .and_then(event_info)
 }
 
-pub async fn event_info(id: String, db: Db) -> Result<impl warp::Reply, Infallible>{
+pub async fn event_info(id: String, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
 
-    let accounts = db.lock().await;
-
-    let account: Option<&Account> = accounts.iter().find(|a| a.id == id);
+    let account = db.get_by_id(id).await;
 
     match account{
-        Some(acc) => Ok(            
+        Ok(acc) => Ok(            
             warp::reply::with_status(
                 warp::reply::json(&acc),
                 StatusCode::CREATED
             )
         ),
-        None =>  Ok(
+        Err(e) =>  Ok(
             warp::reply::with_status(
                 warp::reply::json(&CustomError{error:"Evento no encontrado".to_string()}),
                 StatusCode::NOT_FOUND
@@ -82,7 +80,7 @@ pub async fn event_info(id: String, db: Db) -> Result<impl warp::Reply, Infallib
     }
 }
 
-pub async fn create_event(create: CreateAccount, db: Db) -> Result<impl warp::Reply, Infallible>{
+pub async fn create_event(create: CreateAccount, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
 
     let id = rand::thread_rng()
         .sample_iter(&Alphanumeric)
@@ -96,8 +94,7 @@ pub async fn create_event(create: CreateAccount, db: Db) -> Result<impl warp::Re
         id
     };
 
-    let mut accounts = db.lock().await;
-    accounts.push(acc.clone());
+    db.store(acc.clone()).await;
 
     //.and(warp::reply::json(&acc)
     Ok(warp::reply::with_status(warp::reply::json(&acc), StatusCode::CREATED))
