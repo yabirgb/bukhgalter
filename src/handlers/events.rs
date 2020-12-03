@@ -1,9 +1,8 @@
-use warp::{http::StatusCode, reject, Reply, Rejection, Filter};
+use warp::{http::StatusCode, Filter};
 use serde::{Serialize, Deserialize};
 use crate::models::models::{Account, Debtor, Item};
 use std::convert::Infallible;
-use crate::models::{MemoryDb, DataManager};
-use serde_json::json;
+use crate::models::{DataManager};
 
 extern crate rand;
 
@@ -32,11 +31,12 @@ fn json_body() -> impl Filter<Extract = (CreateAccount,), Error = warp::Rejectio
     warp::body::content_length_limit(1024 * 16).and(warp::body::json())
 }
 
-pub fn events_end(
+pub fn events_endpoint(
     db: impl DataManager,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
         event_create(db.clone())
         .or(get_event(db.clone()))
+        .or(get_by_user(db.clone()))
 }
 
 /// POST /events/create with JSON body
@@ -60,6 +60,15 @@ pub fn get_event(
         .and_then(event_info)
 }
 
+pub fn get_by_user(
+    db: impl DataManager,
+) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+    warp::path!("user" / String)
+        .and(warp::get())
+        .and(with_db(db))
+        .and_then(user_events)
+}
+
 pub async fn event_info(id: String, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
 
     let account = db.get_by_id(id);
@@ -71,7 +80,7 @@ pub async fn event_info(id: String, db: impl DataManager) -> Result<impl warp::R
                 StatusCode::CREATED
             )
         ),
-        Err(e) =>  Ok(
+        Err(_e) =>  Ok(
             warp::reply::with_status(
                 warp::reply::json(&CustomError{error:"Evento no encontrado".to_string()}),
                 StatusCode::NOT_FOUND
@@ -79,6 +88,27 @@ pub async fn event_info(id: String, db: impl DataManager) -> Result<impl warp::R
         )
     }
 }
+
+pub async fn user_events(username: String, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
+
+    let accounts = db.get_with_user(username);
+
+    match accounts{
+        Ok(acc) => Ok(            
+            warp::reply::with_status(
+                warp::reply::json(&acc),
+                StatusCode::CREATED
+            )
+        ),
+        Err(_e) =>  Ok(
+            warp::reply::with_status(
+                warp::reply::json(&CustomError{error:"Usuario sin eventos".to_string()}),
+                StatusCode::NOT_FOUND
+            )
+        )
+    }
+}
+
 
 pub async fn create_event(create: CreateAccount, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
 

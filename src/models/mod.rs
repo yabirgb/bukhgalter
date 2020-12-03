@@ -1,7 +1,5 @@
 use std::sync::{Mutex,Arc};
-use std::convert::Infallible;
 //use tokio::sync::Mutex;
-use async_trait::async_trait;
 
 
 pub mod models;
@@ -13,6 +11,7 @@ pub trait DataManager: Send + Clone{
     fn new(&mut self);
     fn store(&self, acc: models::Account)->Result<(), errors::DataError>;
     fn get_by_id(&self, id: String) -> Result<models::Account, errors::DataError>;
+    fn get_with_user(&self, user: String) -> Result<Vec<models::Account>, errors::DataError>;
     //fn clone(&self)->Self;
 }
 
@@ -58,9 +57,23 @@ impl DataManager for MemoryDataManager{
                 None=>Err(errors::DataError::NotFound)
             }
         })
-        
+    }
 
-
+    fn get_with_user(&self, user: String)->Result<Vec<models::Account>, errors::DataError>{
+        let mut results: Vec<models::Account> = Vec::new();
+        self.with_lock(|accounts|{
+            for acc in accounts.iter(){
+                for debtor in acc.debtors.iter(){
+                    if debtor.name == user{
+                        results.push(acc.clone());
+                    }
+                }
+            }
+            
+            
+        });
+        return Ok(results)
+        //return Err(errors::DataError::NotFound)
     }
 }
 
