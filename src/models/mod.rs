@@ -7,6 +7,7 @@ use async_trait::async_trait;
 pub mod models;
 pub mod errors;
 
+// https://users.rust-lang.org/t/mutable-struct-fields-with-async-await/45395/7
 
 pub trait DataManager: Send + Clone{
     fn new(&mut self);
