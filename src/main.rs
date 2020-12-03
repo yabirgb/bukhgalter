@@ -1,9 +1,5 @@
 //use mongodb::{Client, options::ClientOptions};
-use std::env;
-use std::error::Error;
-use warp::http::StatusCode;
 use warp::{Filter, http::Response};
-use serde::Serialize;
 //use tokio;
 
 pub mod models;
@@ -27,7 +23,7 @@ async fn main(){
 
     let db = models::blank_db();
 
-    let api = handlers::events::events_end(db);
+    let api = handlers::events::events_endpoint(db);
 
     let routes = health_route
         .or(api)
