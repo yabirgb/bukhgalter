@@ -62,7 +62,7 @@ pub fn get_event(
 
 pub async fn event_info(id: String, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
 
-    let account = db.get_by_id(id).await;
+    let account = db.get_by_id(id);
 
     match account{
         Ok(acc) => Ok(            
@@ -94,7 +94,7 @@ pub async fn create_event(create: CreateAccount, db: impl DataManager) -> Result
         id
     };
 
-    db.store(acc.clone()).await;
+    db.store(acc.clone());
 
     //.and(warp::reply::json(&acc)
     Ok(warp::reply::with_status(warp::reply::json(&acc), StatusCode::CREATED))

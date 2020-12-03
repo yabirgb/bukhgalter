@@ -1,53 +1,70 @@
-use std::sync::Arc;
+use std::sync::{Mutex,Arc};
 use std::convert::Infallible;
-use tokio::sync::Mutex;
+//use tokio::sync::Mutex;
 use async_trait::async_trait;
 
 
 pub mod models;
 pub mod errors;
 
-#[async_trait]
-pub trait DataManager {
+
+pub trait DataManager: Send + Clone{
     fn new(&mut self);
-    async fn store(&self, acc: models::Account)->Result<(), errors::DataError>;
-    async fn get_by_id(&self, id: String) -> Result<models::Account, errors::DataError>;
-    async fn clone(&self)->Self;
+    fn store(&self, acc: models::Account)->Result<(), errors::DataError>;
+    fn get_by_id(&self, id: String) -> Result<models::Account, errors::DataError>;
+    //fn clone(&self)->Self;
 }
 
 pub type MemoryDb = Arc<Mutex<Vec<models::Account>>>;
 
-struct MemoryDataManager{
+#[derive(Debug, Clone)]
+pub struct MemoryDataManager{
     db: MemoryDb
 }
 
-#[async_trait]
+
+impl MemoryDataManager{
+    fn with_lock<F, T>(&self, func: F) -> T
+    where
+        F: FnOnce(&mut std::vec::Vec<models::Account>) -> T,
+    {
+        let mut lock = self.db.lock().unwrap();
+        let result = func(&mut *lock);
+        drop(lock);
+        result
+    }
+}
+
 impl DataManager for MemoryDataManager{
     fn new(&mut self){
         self.db = Arc::new(Mutex::new(Vec::new()))
     }
 
-    async fn store(&self, account: models::Account)->Result<(), errors::DataError>{
-        let mut accounts = self.db.lock().await;
-        accounts.push(account.clone());
+    fn store(&self, account: models::Account)->Result<(), errors::DataError>{
+        self.with_lock(|accounts|{
+            accounts.push(account.clone());
+        });
+        
         Ok(())
     }
 
-    async fn get_by_id(&self, id: String)->Result<models::Account, errors::DataError>{
-        let accounts = self.db.lock().await;
-        let account: Option<&models::Account> = accounts.iter().find(|a| a.id == id);
+    fn get_by_id(&self, id: String)->Result<models::Account, errors::DataError>{
+        
+        self.with_lock(|accounts|{
+            let account: Option<&models::Account> = accounts.iter().find(|a| a.id == id);
+            match account{
+                Some(acc)=>Ok(acc.clone()),
+                None=>Err(errors::DataError::NotFound)
+            }
+        })
+        
 
-        match account{
-            Some(acc)=>Ok(acc.clone()),
-            None=>Err(errors::DataError::NotFound)
-        }
-    }
 
-    async fn clone(&self)->Self{
-        MemoryDataManager{db: self.db.clone()}
     }
 }
 
-pub fn blank_db() -> MemoryDb{
-    Arc::new(Mutex::new(Vec::new()))
+pub fn blank_db() -> MemoryDataManager{
+    MemoryDataManager{
+        db: Arc::new(Mutex::new(Vec::new()))
+    }   
 }
