@@ -39,7 +39,7 @@ pub fn events_endpoint(
 pub fn event_create(
     db: impl DataManager,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::path!("api" / "v1" / "events" / "create")
+    warp::path!("api" / "v1" / "events")
         .and(warp::post())
         .and(json_body())
         .and(with_db(db))
@@ -74,6 +74,16 @@ pub fn event_make_payment(
         .and(json_body())
         .and(with_db(db))
         .and_then(create_event)
+}
+
+pub fn event_update(
+    db: impl DataManager,
+) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+    warp::path!("api" / "v1" / "events" / String)
+        .and(warp::put())
+        .and(json_body())
+        .and(with_db(db))
+        .and_then(update_event)
 }
 
 pub async fn event_info(id: String, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
@@ -137,16 +147,23 @@ pub async fn create_event(create: CreateAccount, db: impl DataManager) -> Result
     Ok(warp::reply::with_status(warp::reply::json(&acc), StatusCode::CREATED))
 }
 
+pub async fn update_event(id: String, acc: CreateAccount, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
+
+    match db.update_account(id, acc.clone()){
+        Ok(_)=> Ok(warp::reply::with_status(warp::reply::json(&acc), StatusCode::OK)),
+        Err(e) => Ok(warp::reply::with_status(warp::reply::json(&e), StatusCode::NOT_FOUND)),
+    }
+}
+
+
 
 pub async fn make_payment(payment: Payment, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
 
     let acc = db.make_payment(&payment);
 
     match acc{
-        Ok(a) => return Ok(warp::reply::with_status(warp::reply::json(&a), StatusCode::CREATED)),
+        Ok(a) => return Ok(warp::reply::with_status(warp::reply::json(&a), StatusCode::OK)),
         Err(e) => return Ok(warp::reply::with_status(warp::reply::json(&e), StatusCode::NOT_FOUND))
     }
-
-    //.and(warp::reply::json(&acc)
     
 }

@@ -144,9 +144,14 @@ impl Account{
         let debtor_position = self.debtors.iter().position(|x| x.name.eq(&debtor_name));
 
         match debtor_position {
-            Some(position) => Ok(position),
+            Some(position) => {
+                self.debtors[position].increment_paid(amount);
+                Ok(position)
+            },
             None => Err(errors::AccountError::DebtorNotFound)
         }
+
+        
     }
 
     // Eliminar un deudor de la lista de deudores

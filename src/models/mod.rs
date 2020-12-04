@@ -13,7 +13,7 @@ pub trait DataManager: Send + Clone{
     fn get_by_id(&self, id: String) -> Result<models::Account, errors::DataError>;
     fn get_with_user(&self, user: String) -> Result<Vec<models::Account>, errors::DataError>;
     fn make_payment(&self, payment: &requests::Payment)->Result<models::Account, errors::AccountError>;
-    //fn clone(&self)->Self;
+    fn update_account(&self, id:String, acc: requests::CreateAccount)->Result<(), errors::DataError>;
 }
 
 pub type MemoryDb = Arc<Mutex<Vec<models::Account>>>;
@@ -97,7 +97,29 @@ impl DataManager for MemoryDataManager{
             Some(x)=>Ok(x),
             None =>Err(errors::AccountError::DebtorNotFound)
         }
+    }
 
+    fn update_account(&self, id:String,  account: requests::CreateAccount)->Result<(), errors::DataError>{
+        
+        let mut updated = false;
+
+        self.with_lock(|accounts|{
+            for acc in accounts.iter_mut(){
+                if acc.id == id{
+                    acc.debtors = account.debtors;
+                    acc.items = account.items;
+                    acc.name = account.name;
+                    updated = true;
+                    break;
+                }
+            }
+        });
+
+        if updated{
+            Ok(())
+        }else{
+            Err(errors::DataError::NotFound)
+        }
         
     }
 }
