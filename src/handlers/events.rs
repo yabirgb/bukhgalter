@@ -3,18 +3,13 @@ use serde::{Serialize, Deserialize};
 use crate::models::models::{Account, Debtor, Item};
 use std::convert::Infallible;
 use crate::models::{DataManager};
+use crate::models::requests::{Payment, CreateAccount};
 
 extern crate rand;
 
 use rand::Rng; 
 use rand::distributions::Alphanumeric;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct CreateAccount{
-    pub items: Vec<Item>,
-    pub debtors: Vec<Debtor>,
-    pub name: String,
-}
 
 #[derive(Serialize, Debug, Clone)]
 pub struct CustomError{
@@ -35,15 +30,16 @@ pub fn events_endpoint(
     db: impl DataManager,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
         event_create(db.clone())
-        .or(get_event(db.clone()))
-        .or(get_by_user(db.clone()))
+        .or(event_get(db.clone()))
+        .or(event_get_by_user(db.clone()))
+        .or(event_make_payment(db.clone()))
 }
 
 /// POST /events/create with JSON body
 pub fn event_create(
     db: impl DataManager,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::path!("events" / "create")
+    warp::path!("api" / "v1" / "events" / "create")
         .and(warp::post())
         .and(json_body())
         .and(with_db(db))
@@ -51,22 +47,33 @@ pub fn event_create(
 }
 
 /// GET /events/{events_id}
-pub fn get_event(
+pub fn event_get(
     db: impl DataManager,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::path!("events" / String)
+    warp::path!("api" / "v1" / "events" / String)
         .and(warp::get())
         .and(with_db(db))
         .and_then(event_info)
 }
 
-pub fn get_by_user(
+pub fn event_get_by_user(
     db: impl DataManager,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::path!("user" / String)
+    warp::path!("api" / "v1" /  "user" / String)
         .and(warp::get())
         .and(with_db(db))
         .and_then(user_events)
+}
+
+/// POST /events/pay with JSON body
+pub fn event_make_payment(
+    db: impl DataManager,
+) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+    warp::path!("api" / "v1" / "events" / "pay")
+        .and(warp::post())
+        .and(json_body())
+        .and(with_db(db))
+        .and_then(create_event)
 }
 
 pub async fn event_info(id: String, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
@@ -128,4 +135,18 @@ pub async fn create_event(create: CreateAccount, db: impl DataManager) -> Result
 
     //.and(warp::reply::json(&acc)
     Ok(warp::reply::with_status(warp::reply::json(&acc), StatusCode::CREATED))
+}
+
+
+pub async fn make_payment(payment: Payment, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
+
+    let acc = db.make_payment(&payment);
+
+    match acc{
+        Ok(a) => return Ok(warp::reply::with_status(warp::reply::json(&a), StatusCode::CREATED)),
+        Err(e) => return Ok(warp::reply::with_status(warp::reply::json(&e), StatusCode::NOT_FOUND))
+    }
+
+    //.and(warp::reply::json(&acc)
+    
 }

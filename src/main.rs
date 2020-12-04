@@ -23,10 +23,10 @@ async fn main(){
 
     let db = models::blank_db();
 
-    let api = handlers::events::events_endpoint(db);
+    let api_events = handlers::events::events_endpoint(db);
 
     let routes = health_route
-        .or(api)
+        .or(api_events)
         .with(warp::cors().allow_any_origin());
 
     warp::serve(routes).run(([127, 0, 0, 1], 8000)).await;

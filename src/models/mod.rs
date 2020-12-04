@@ -1,9 +1,9 @@
 use std::sync::{Mutex,Arc};
 //use tokio::sync::Mutex;
 
-
 pub mod models;
 pub mod errors;
+pub mod requests;
 
 // https://users.rust-lang.org/t/mutable-struct-fields-with-async-await/45395/7
 
@@ -12,6 +12,7 @@ pub trait DataManager: Send + Clone{
     fn store(&self, acc: models::Account)->Result<(), errors::DataError>;
     fn get_by_id(&self, id: String) -> Result<models::Account, errors::DataError>;
     fn get_with_user(&self, user: String) -> Result<Vec<models::Account>, errors::DataError>;
+    fn make_payment(&self, payment: &requests::Payment)->Result<models::Account, errors::AccountError>;
     //fn clone(&self)->Self;
 }
 
@@ -72,8 +73,32 @@ impl DataManager for MemoryDataManager{
             
             
         });
-        return Ok(results)
+
+        Ok(results)
         //return Err(errors::DataError::NotFound)
+    }
+
+    fn make_payment(&self, payment: &requests::Payment)->Result<models::Account, errors::AccountError>{
+        
+        let mut account: Option<models::Account> = None;
+
+        self.with_lock(|accounts|{
+            for acc in accounts.iter_mut(){
+                if acc.id == payment.account_id{
+                    match acc.pay_by_debtor(payment.debtor.clone(), payment.amount.into()){
+                        Ok(_)  => {account = Some(acc.clone())},
+                        Err(_e) => {}
+                    }
+                }
+            }
+        });
+
+        match account{
+            Some(x)=>Ok(x),
+            None =>Err(errors::AccountError::DebtorNotFound)
+        }
+
+        
     }
 }
 
