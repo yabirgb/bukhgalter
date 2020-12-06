@@ -34,14 +34,24 @@ necesario, los campos que acepta en la petición y el tipo de los mismos.
 
 1. Hacer un pago
 
-        POST /api/v1/events/{event_id}/pay
-
-    - `name` (required)(`String`): Nombre de la persona que realiza el pago
+        PATH /api/v1/events/pay
+    - `name` (required)(`String`): Nombre de la persona que realiza el pago.
     - `amount` (required)(`Float`): Cantidad que se paga.
+    - `id` (required)(`String`): Id de la cuenta en la que se hace el pago.
 
 1. Conocer estadísticas sobre un evento:
 
         GET /api/v1/events/{event_id}/stats
+
+1. Se debe poder actualizar la información de un evento
+
+        PUT /api/v1/events/{event_id}
+
+        Misma información que se enviaba al crear un evento
+
+1. Un usuario debe poder conseguir todos los eventos en los que participa
+
+        GET /api/v1/users/{user_id}
 
 ## Organizaciones
 
