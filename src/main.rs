@@ -4,6 +4,7 @@ use warp::{Filter, http::Response};
 
 pub mod models;
 pub mod handlers;
+pub mod filters;
 //#[derive(Debug, Serialize)]
 //struct Health{
 //    status: String
@@ -23,7 +24,7 @@ async fn main(){
 
     let db = models::blank_db();
 
-    let api_events = handlers::events::events_endpoint(db);
+    let api_events = filters::events::events_endpoint(db);
 
     let routes = health_route
         .or(api_events)
