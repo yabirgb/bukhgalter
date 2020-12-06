@@ -8,7 +8,7 @@ pub struct CreateAccount{
     pub name: String,
 }
 
-#[derive(Serialize, Debug, Clone)]
+#[derive(Serialize,Deserialize, Debug, Clone)]
 pub struct Payment{
     pub debtor: String,
     pub account_id: String,

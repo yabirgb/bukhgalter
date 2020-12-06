@@ -7,13 +7,13 @@ pub mod requests;
 
 // https://users.rust-lang.org/t/mutable-struct-fields-with-async-await/45395/7
 
-pub trait DataManager: Send + Clone{
+pub trait DataManager: Send + Clone + 'static + std::fmt::Debug{
     fn new(&mut self);
     fn store(&self, acc: models::Account)->Result<(), errors::DataError>;
     fn get_by_id(&self, id: String) -> Result<models::Account, errors::DataError>;
     fn get_with_user(&self, user: String) -> Result<Vec<models::Account>, errors::DataError>;
     fn make_payment(&self, payment: &requests::Payment)->Result<models::Account, errors::AccountError>;
-    fn update_account(&self, id:String, acc: requests::CreateAccount)->Result<(), errors::DataError>;
+    fn update_account(&self, id:String, acc: requests::CreateAccount)->Result<models::Account, errors::DataError>;
 }
 
 pub type MemoryDb = Arc<Mutex<Vec<models::Account>>>;
@@ -99,10 +99,10 @@ impl DataManager for MemoryDataManager{
         }
     }
 
-    fn update_account(&self, id:String,  account: requests::CreateAccount)->Result<(), errors::DataError>{
+    fn update_account(&self, id:String,  account: requests::CreateAccount)->Result<models::Account, errors::DataError>{
         
         let mut updated = false;
-
+        let mut updated_account:Option<models::Account> = None;
         self.with_lock(|accounts|{
             for acc in accounts.iter_mut(){
                 if acc.id == id{
@@ -110,13 +110,14 @@ impl DataManager for MemoryDataManager{
                     acc.items = account.items;
                     acc.name = account.name;
                     updated = true;
+                    updated_account = Some(acc.clone());
                     break;
                 }
             }
         });
 
         if updated{
-            Ok(())
+            Ok(updated_account.unwrap())
         }else{
             Err(errors::DataError::NotFound)
         }
