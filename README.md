@@ -22,6 +22,22 @@ La información relativa a la REST API que se expone se encuentra en la
 documentación sobre el [Microservicio](docs/microservicio.md) y en la de las
 [urls](docs/URLS.md).
 
+## Logging
+
+Para obtener información sobre las peticiones que se procesan en el
+microservicio se pone a disposición un sistema de logging con capacidad de
+enviar los logs a otro servicio mediante syslog. Para saber como funciona 
+y se integra en el proyecto consultar la documentación [logs](docs/logs.md).
+
+## Configuración
+
+El proyecto cuenta con distintos parámetros para ajustar el comportamiento del
+microservicio. Se utilizan tanto variables de entorno como `etcd` a modo de
+gestor de configuración distribuida. En el apartado de
+[configuración](docs/configuracion_distribuida.md) se especifica la política
+para encontrar la configuración y las variables que se buscan al arrancar el
+microservicio.
+
 ## Serverless
 
 Se ha documentado la parte [serverless](docs/serverless.md) de la aplicación en
