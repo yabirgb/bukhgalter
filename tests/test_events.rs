@@ -103,6 +103,27 @@ async fn test_create_event(empty_memory_db: impl DataManager){
 
 #[rstest]
 #[tokio::test]
+async fn test_create_event_bad_body(empty_memory_db: impl DataManager){
+    let filter = filters::events::event_create(empty_memory_db);
+
+    let b =r#"
+    {
+    }
+    "#;
+
+    let res = warp::test::request()
+        .method("POST")
+        .path("/api/v1/events")
+        .header("content-type", "application/json")
+        .body(&b)
+        .reply(&filter).await;
+
+    assert_eq!(res.status(), StatusCode::BAD_REQUEST );
+
+}
+
+#[rstest]
+#[tokio::test]
 async fn test_get_event(filled_memory_db: impl DataManager){
     let filter_get = filters::events::event_get(filled_memory_db);
 
@@ -115,6 +136,17 @@ async fn test_get_event(filled_memory_db: impl DataManager){
     let acapi:models::models::Account = serde_json::from_slice(res.body()).unwrap();
 
     assert_eq!(acc2, acapi);
+}
+
+#[rstest]
+#[tokio::test]
+async fn test_get_event_not_in_db(filled_memory_db: impl DataManager){
+    let filter_get = filters::events::event_get(filled_memory_db);
+
+    let res = warp::test::request()
+        .path("/api/v1/events/1231dfsg1").reply(&filter_get).await;
+
+    assert_eq!(res.status(), StatusCode::NOT_FOUND);
 }
 
 #[rstest]
@@ -153,6 +185,61 @@ async fn make_payment(filled_memory_db: impl DataManager){
 
 #[rstest]
 #[tokio::test]
+async fn make_payment_user_not_found(filled_memory_db: impl DataManager){
+
+    let filter = filters::events::event_make_payment(filled_memory_db);
+
+
+    // make a payment example. This amount doesnt represent anything special.
+    // The account_id and debtor name match the ones in the db
+
+    let payment = r#"{
+        "debtor": "T",
+        "account_id": "1231dfsf1",
+        "amount": 20}
+    "#;
+
+    let res = warp::test::request()
+    .method("PATCH")
+    .path("/api/v1/events/pay")
+    .header("content-type", "application/json")
+    .body(&payment)
+    .reply(&filter).await;
+    
+    // comprobamos que se busca bien
+    assert_eq!(res.status(), StatusCode::NOT_FOUND);
+}
+
+#[rstest]
+#[tokio::test]
+async fn make_payment_account_not_found(filled_memory_db: impl DataManager){
+
+    let filter = filters::events::event_make_payment(filled_memory_db);
+
+
+    // make a payment example. This amount doesnt represent anything special.
+    // The account_id and debtor name match the ones in the db
+
+    let payment = r#"{
+        "debtor": "T",
+        "account_id": "1231dfsg1",
+        "amount": 20}
+    "#;
+
+    let res = warp::test::request()
+    .method("PATCH")
+    .path("/api/v1/events/pay")
+    .header("content-type", "application/json")
+    .body(&payment)
+    .reply(&filter).await;
+    
+    // comprobamos que se busca bien
+    assert_eq!(res.status(), StatusCode::NOT_FOUND);
+}
+
+
+#[rstest]
+#[tokio::test]
 async fn find_events(filled_memory_db: impl DataManager){
 
     let filter = filters::events::event_get_by_user(filled_memory_db);
@@ -167,6 +254,21 @@ async fn find_events(filled_memory_db: impl DataManager){
     assert_eq!(acc2.len(),2);
     assert_eq!(acc2[0].id, "1231dfsf2");
     assert_eq!(acc2[1].id, "1231dfsf1");
+}
+
+#[rstest]
+#[tokio::test]
+async fn find_events_not_in_db(filled_memory_db: impl DataManager){
+
+    let filter = filters::events::event_get_by_user(filled_memory_db);
+
+    let res = warp::test::request()
+    .path("/api/v1/users/T")
+    .reply(&filter).await;
+    let acc2: Vec<models::models::Account> = serde_json::from_slice(res.body()).unwrap();
+    // comprobamos que se busca bien
+    assert_eq!(res.status(), StatusCode::OK);
+    assert_eq!(0, acc2.len());
 }
 
 #[rstest]
@@ -188,4 +290,19 @@ async fn test_update_event(filled_memory_db: impl DataManager){
     assert_eq!(account.name, "Lidl");
     assert_eq!(account.items.len(), 2);
     assert_eq!(account.debtors.len(), 2);
+}
+
+#[rstest]
+#[tokio::test]
+async fn test_update_event_not_created(empty_memory_db: impl DataManager){
+    let filter = filters::events::event_update(empty_memory_db);
+
+    let res = warp::test::request()
+        .method("PUT")
+        .path("/api/v1/events/1231dfsf2")
+        .header("content-type", "application/json")
+        .body(&ACC2)
+        .reply(&filter).await;
+
+    assert_eq!(res.status(), StatusCode::NOT_FOUND );
 }
