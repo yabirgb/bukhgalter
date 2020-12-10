@@ -104,11 +104,6 @@ Cuenta que representa una asociación entre `items` y `debtors`
    - `NOT_FOUND`: Si la entrada no hay un evento con dicho id
 
 
-1. Conocer estadísticas sobre un evento:
-
-        GET /api/v1/events/{event_id}/stats
-
-
 1. Un usuario debe poder conseguir todos los eventos en los que participa
 
         GET /api/v1/users/{user_id}
@@ -122,3 +117,12 @@ Cuenta que representa una asociación entre `items` y `debtors`
    - `OK`: Devuelve los datos del evento o una lista vacía si no tiene o no
      existe el usuario
 
+
+Con las funcionalidades anteriormente descritas se cubren las historias de
+usuario a nivel de API:
+
+- HU1: Añadir y leer eventos asociados a un usuario (1, 5)
+- HU2: Agregar y eliminar deudores (3)
+- HU3: Realizar pagos (4)
+- HU4: Actualizar proporciones de deudas (3)
+- HU5: Conocer datos de una cuenta (2)
