@@ -57,7 +57,11 @@ Cons:
 ### Decisión
 
 Finalmente me he decantado por `warp` por ser el candidato más fuerte de los que
-he visto y el que creo que más me va a facilitar el desarrollo.
+he visto y el que creo que más me va a facilitar el desarrollo. Creo que va a
+ser especialmente correcto porque fomenta una estructura de código muy limpia y
+legible. Además los resultados en temas de rendimiento son excelentes y la
+capacidad asíncrona que incorpora de manera nativa en su diseño han tenido mucho
+peso en la decisión.
 
 ## Diseño
 
@@ -67,6 +71,13 @@ Respecto al diseño de la aplicación se ha estructurado de la siguiente manera:
 
 - Se han creado una serie de [funciones filter](/src/filters) que manejan las peticiones que se reciben.
 - Se han creado una serie de [funciones handler](/src/handlers) que manejan la lógica detrás de los filtros.
+
+De esta manera cuando una petición llega al servidor en primer lugar pasa por el
+`Filter` correspondiente y este llama a una función `Handler` que es la que se
+encarga de, usando los métodos de las estructuras creadas o las clases de datos,
+generar la información que se solicita o actuar respecto a la entrada.
+Finalmente el `Handler` devuelve el control al `Filter` que a su vez devuelve al
+usuario la respuesta.
 
 Respecto a la gestión de como almacenar la información que se recibe y envía se
 ha creado un `trait` de Rust. Los traits indican funcionalidades que deben
