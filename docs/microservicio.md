@@ -76,3 +76,22 @@ almacenar la información. A continuación he creado un
 [MemoryDataManager](/src/models/mod.rs#L23) que gestiona las cuentas del proyecto en
 memoria. De esta maneras desde mis handlers puede gestionar la información sin
 tener que manejar la lógica que hay detrás.
+
+Ha sido muy agradable trabajar con un lenguaje como Rust ya que ha permitido
+mediante su sistema de tipos y su habilidad para analizar el código antes de
+compilar, encontrar numerosos errores y obtener un código muy legible a la vez
+que robusto.
+
+## Testing
+
+Para comprobar el correcto funcionamiento de las funcionalidades de la API se
+han desarrollado una serie de `tests` (no requieren de un servidor ejecutándose).
+Se han desarrollado tests para cada endpoint en [tests/test_events.rs](/tests/test_events.rs).
+
+En total se han creado 13 tests distintos que prueba los distintos endpoints descritos en el proyecto con distintas entradas, algunas correctas y otras incorrectas, de manera que se siguen todos los casos posibles de entrada que un usuario puede seguir. Estos tests siguen las distintas historias de usuario.
+
+Como se ha comentado los tests se ejecutan utilizando funcionalidades que
+incorpora `warp` de manera que no es necesario ejecutar el servidor para poder
+probar el correcto funcionamiento del servicio. Esto también es posible gracias
+a la separación que se ha seguido en la parte de diseño y que mediante el
+desacople permite testear cada modulo de manera independiente.
