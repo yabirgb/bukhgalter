@@ -1,5 +1,5 @@
 use thiserror::Error;
-
+use serde::{Serialize};
 /*
 #[derive(Error, Debug)]
 pub enum Error {
@@ -14,11 +14,20 @@ pub enum Error {
 }
 */
 
-#[derive(Error, Debug, PartialEq)]
+#[derive(Error, Debug, PartialEq, Serialize)]
 pub enum AccountError {
     #[error("User not found in the debtors' list")]
     DebtorNotFound,
     #[error("Proportions don't sum one")]
     InvalidProportions,
+}
 
+#[derive(Error, Debug, PartialEq, Serialize)]
+pub enum DataError {
+    #[error("Error storing entry")]
+    InsertError,
+    #[error("Object not found")]
+    NotFound,
+    #[error("I never fail")]
+    Infallible,
 }

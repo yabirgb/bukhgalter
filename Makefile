@@ -1,4 +1,5 @@
 build:
+install:
 	cargo build 
 
 test: 
@@ -15,3 +16,6 @@ docs:
 
 check:
 	cargo check
+
+start:
+	cargo run

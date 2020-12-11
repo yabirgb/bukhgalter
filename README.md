@@ -16,6 +16,36 @@ La lista completa de cambios en cada versión ha sido documentada en un archivo
 [changelog](docs/changelog.md). En dicho archivo se encuentran los cambios de cada 
 versión y que issues se han cerrado.
 
+## Microservicio
+
+La información relativa a la REST API que se expone se encuentra en la
+documentación sobre el [Microservicio](docs/microservicio.md) y en la de las
+[urls](docs/URLS.md).
+
+Tambien hay un apartado en [Microservicios/diseño](docs/microservicio.md#diseño)
+que explica como se ha esrtructurado el microservicio y como se han desacoplado
+en la medida de lo posible los distintos componentes del mismo. También se
+documenta como se maneja actualmente el almacenamiento de datos.
+
+[Microservicios/testing](docs/microservicio.md#testing) informa de la estructura
+de los tests.
+
+## Logging
+
+Para obtener información sobre las peticiones que se procesan en el
+microservicio se pone a disposición un sistema de logging con capacidad de
+enviar los logs a otro servicio mediante syslog. Para saber como funciona 
+y se integra en el proyecto consultar la documentación [logs](docs/logs.md).
+
+## Configuración
+
+El proyecto cuenta con distintos parámetros para ajustar el comportamiento del
+microservicio. Se utilizan tanto variables de entorno como `etcd` a modo de
+gestor de configuración distribuida. En el apartado de
+[configuración](docs/configuracion_distribuida.md) se especifica la política
+para encontrar la configuración y las variables que se buscan al arrancar el
+microservicio.
+
 ## Serverless
 
 Se ha documentado la parte [serverless](docs/serverless.md) de la aplicación en

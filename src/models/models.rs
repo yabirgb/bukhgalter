@@ -1,7 +1,6 @@
-use std::cmp;
 use math::round;
 
-use miniserde::{Serialize, Deserialize};
+use serde::{Serialize, Deserialize};
 use super::errors;
 
 const PRECISION: i8 = 2; // precision for the operations
@@ -9,7 +8,7 @@ const PRECISION: i8 = 2; // precision for the operations
 /// Struct que abstrae la identidad de un deudor. Esta estructura 
 /// se utiliza para encapsular los datos necesarios para cumplir con
 /// la HU2 https://github.com/yabirgb/bukhgalter/issues/9
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub struct Debtor{
     /// Id que se le asigna al usuario de manera interna
     pub id: String,
@@ -35,7 +34,7 @@ pub const PAID: &str = "paid";
 /// Struct que abstrae la representación de un objeto que genera una deuda.
 /// Esta estructura permite la representación interna de un elemento para 
 /// almacenar datos relativos a la HU1 https://github.com/yabirgb/bukhgalter/issues/8
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub struct Item{
     /// Precio del item
     pub price: f64,
@@ -50,10 +49,12 @@ pub const DATE: &str = "date";
 
 /// Estructura que agrupa deudores y objetos que genran la deuda y que permite 
 /// realizar operaciones en las que intervienen los mismos.
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone,PartialEq)]
 pub struct Account{
     pub items: Vec<Item>,
-    pub debtors: Vec<Debtor>
+    pub debtors: Vec<Debtor>,
+    pub name: String,
+    pub id: String
 }
 
 pub const ITEMS: &str = "items";
@@ -143,9 +144,14 @@ impl Account{
         let debtor_position = self.debtors.iter().position(|x| x.name.eq(&debtor_name));
 
         match debtor_position {
-            Some(position) => Ok(position),
+            Some(position) => {
+                self.debtors[position].increment_paid(amount);
+                Ok(position)
+            },
             None => Err(errors::AccountError::DebtorNotFound)
         }
+
+        
     }
 
     // Eliminar un deudor de la lista de deudores
