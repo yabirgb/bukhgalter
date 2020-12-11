@@ -44,7 +44,8 @@ microservicio.
 
 Se ha creado un contenedor docker para ejecutar el microservicio. El archivo
 [Dockerfile](https://github.com/yabirgb/bukhgalter/blob/master/dockerfiles/debian/Dockerfile)
-se ha adaptado a partir del creado en un hito anterior. Para ejecutar el contenedor hay que proporcionar las variables de entorno. Un ejemplo sería
+se ha adaptado a partir del creado en versiones anterior. Para ejecutar el
+contenedor hay que proporcionar las variables de entorno. Un ejemplo sería
 
     docker run -p 8000:8000 -e log_host="logs.papertrailapp.com" -e log_port=$PORT_LOG -e host="0.0.0.0" -e port=8000 -e RUST_LOG=Info image:latest
 
