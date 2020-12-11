@@ -10,12 +10,6 @@ quieren ajustar la cuenta de cuanto debe cada persona. También sería interesan
 en el viaje conocer cuanto se va gastando y llevar una planificación del
 presupuesto disponible.
 
-## Cambios realizados
-
-La lista completa de cambios en cada versión ha sido documentada en un archivo
-[changelog](docs/changelog.md). En dicho archivo se encuentran los cambios de cada 
-versión y que issues se han cerrado.
-
 ## Microservicio
 
 La información relativa a la REST API que se expone se encuentra en la
@@ -45,6 +39,21 @@ gestor de configuración distribuida. En el apartado de
 [configuración](docs/configuracion_distribuida.md) se especifica la política
 para encontrar la configuración y las variables que se buscan al arrancar el
 microservicio.
+
+## Ejecutar el servicio
+
+Se ha creado un contenedor docker para ejecutar el microservicio. El archivo
+[Dockerfile](https://github.com/yabirgb/bukhgalter/blob/master/dockerfiles/debian/Dockerfile)
+se ha adaptado a partir del creado en un hito anterior. Para ejecutar el contenedor hay que proporcionar las variables de entorno. Un ejemplo sería
+
+    docker run -p 8000:8000 -e log_host="logs.papertrailapp.com" -e log_port=$PORT_LOG -e host="0.0.0.0" -e port=8000 -e RUST_LOG=Info image:latest
+
+Para ejecutar el contenedor sin docker hay que:
+
+1. Clonar el repositorio
+2. Ejecutar `make release`
+3. Crear las variables de entorno necesarias
+4. Ejecutar `./target/release/bukhgalter`
 
 ## Serverless
 
