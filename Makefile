@@ -1,7 +1,7 @@
 build:
 	cargo build
 
-install: build
+install:
 	true 
 
 test: 
