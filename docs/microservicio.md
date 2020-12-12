@@ -65,7 +65,7 @@ peso en la decisión.
 
 ## Diseño
 
-Los endpoints que se van a diseñar han sido documentados en el apartado [URLS](urls.md).
+Los endpoints que se van a diseñar han sido documentados en el apartado [URLS](URLS.md).
 
 Respecto al diseño de la aplicación se ha estructurado de la siguiente manera:
 
