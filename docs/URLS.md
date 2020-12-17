@@ -89,7 +89,7 @@ Cuenta que representa una asociación entre `items` y `debtors`
 
 1. Hacer un pago
 
-        PATH /api/v1/events/pay
+        PATCH /api/v1/events/pay
 
    Toma:
         
