@@ -1,0 +1,11 @@
+{
+    "name": "Bukhgalter application",
+    "description": "A rust application for the virtual infraestructure subject",
+    "repository": "https://github.com/yabirgb/bukhgalter",
+    "success_url": "/status",
+    "keywords": ["rust", "warp"],
+    "website": "https://github.com/yabirgb/bukhgalter",
+    "env": {
+      "BUILDPACK_URL": "https://github.com/emk/heroku-buildpack-rust.git"
+    }
+  }
