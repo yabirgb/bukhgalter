@@ -119,8 +119,8 @@ async fn main(){
 
     //println!("TEST {:?}", get_env_var("adios".to_string()).await);
 
-    let host = get_env_var_or_default("host".to_string(), "127.0.0.1".to_string()).await;
-    let port = get_env_var_or_default("port".to_string(), "8000".to_string()).await;
+    let host = get_env_var_or_default("HOST".to_string(), "127.0.0.1".to_string()).await;
+    let port = get_env_var_or_default("PORT".to_string(), "8000".to_string()).await;
 
     let routes = health_route
         .or(api_events)
