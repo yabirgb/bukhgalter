@@ -204,11 +204,11 @@ impl DataManager for PGDataManager{
         match self.get_con(){
             Ok(conn) => {
                 match schema_accounts::dsl::accounts.filter(
-                            sql("debtors->>'name'? 'Alcatraz'")
+                            sql("debtors->>'name'? 'Gustavo'")
                         ).load::<models::Account>(&conn) 
                     {
-                    Ok(acc) => return Ok(acc),
-                    Err(_) => {println!("Account not found"); return Err(errors::DataError::NotFound)}
+                    Ok(acc) => {println!("Encontrado");return Ok(acc)},
+                    Err(e) => {println!("{:?}", e); return Err(errors::DataError::NotFound)}
                 }
             }
             Err(_)=> {println!("Error getting connection");return Err(errors::DataError::NotFound)}
