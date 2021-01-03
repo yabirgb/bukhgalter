@@ -31,3 +31,9 @@ pub enum DataError {
     #[error("I never fail")]
     Infallible,
 }
+
+#[derive(Error, Debug, PartialEq, Serialize)]
+pub enum DataManagerError {
+    #[error("Error connecting to db")]
+    ConnectionError,
+}

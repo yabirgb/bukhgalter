@@ -28,6 +28,8 @@ pretty_env_logger = "0.4.0"
 syslog = "^4.0"
 env_logger = "0.8.2"
 gelf="0.5.0"
+diesel = { version = "1.4.5", features = ["postgres", "r2d2"] }
+diesel_as_jsonb = "0.1.2"
 #async-trait = "0.1.42"
 
 [dev-dependencies]

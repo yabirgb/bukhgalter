@@ -1,6 +1,7 @@
 //use mongodb::{Client, options::ClientOptions};
 
 use std::{env, fmt, error};
+use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 
 use warp::{Filter, http::Response};
 use etcd_client::{Client, Error};
@@ -11,15 +12,24 @@ use syslog::{Facility, Formatter3164, BasicLogger};
 extern crate log;
 use log::{SetLoggerError, LevelFilter};
 
+
+#[macro_use]
+extern crate diesel;
+
+#[macro_use]
+extern crate diesel_as_jsonb;
+
 //use tokio;
-use std::net::IpAddr;
 pub mod models;
 pub mod handlers;
 pub mod filters;
+pub mod schema;
 //#[derive(Debug, Serialize)]
 //struct Health{
 //    status: String
 //}
+
+
 
 use thiserror;
 
@@ -94,12 +104,17 @@ async fn main(){
             let log_port = get_env_var("log_port".to_string()).await.unwrap();
 
             //syslog::init(Facility::LOG_USER, LevelFilter::Debug, Some("bukhgalter"));
-            let logger = syslog::tcp(formatter, format!("{}:{}", log_host, log_port)).expect("could not connect to syslog");
+            match syslog::tcp(formatter, format!("{}:{}", log_host, log_port)){
+                Ok(logger) => {
+                    log::set_boxed_logger(Box::new(BasicLogger::new(logger)))
+                    .map(|()| log::set_max_level(LevelFilter::Debug));    
+                    println!("Set logger");
+                    info!("log set");
+                }
+                Err(_) => println!("Error connecting to log service")
+            };
             //syslog::init_tcp("logs.papertrailapp.com:10482", "berlin".to_string(), Facility::LOG_SYSLOG, LevelFilter::Info);
-            log::set_boxed_logger(Box::new(BasicLogger::new(logger)))
-            .map(|()| log::set_max_level(LevelFilter::Debug));    
-            println!("Set logger");
-            info!("log set");
+
         }
         _ =>{}
     }
@@ -113,7 +128,7 @@ async fn main(){
             .body(r#"{"status": "OK"}"#)
     );
 
-    let db = models::blank_db();
+    let db = models::PGDataManager{db: models::pg_pool(&env::var("DATABASE_URL").unwrap())};
 
     let api_events = filters::events::events_endpoint(db);
 
@@ -126,6 +141,7 @@ async fn main(){
         .or(api_events)
         .with(warp::cors().allow_any_origin())
         .with(warp::log("events"));
+
 
     println!("Server running at {}:{}", host, port);
     warp::serve(routes).run((host.parse::<IpAddr>().unwrap(), port.parse().unwrap())).await;
