@@ -27,7 +27,7 @@ pub fn events_endpoint(
 pub fn event_make_payment(
     db: impl DataManager,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::path!("api" / "v1" / "events" / "pay")
+    warp::path!("events" / "pay")
         .and(warp::patch())
         .and(warp::body::content_length_limit(BODY_SIZE))
         .and(warp::body::json())
@@ -39,7 +39,7 @@ pub fn event_make_payment(
 pub fn event_create(
     db: impl DataManager,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::path!("api" / "v1" / "events")
+    warp::path!("events")
         .and(warp::post())
         .and(warp::body::content_length_limit(BODY_SIZE))
         .and(warp::body::json())
@@ -51,7 +51,7 @@ pub fn event_create(
 pub fn event_get(
     db: impl DataManager,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::path!("api" / "v1" / "events" / String)
+    warp::path!("events" / String)
         .and(warp::get())
         .and(with_db(db))
         .and_then(event_info)
@@ -60,7 +60,7 @@ pub fn event_get(
 pub fn event_get_by_user(
     db: impl DataManager,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::path!("api" / "v1" /  "users" / String)
+    warp::path!("users" / String)
         .and(warp::get())
         .and(with_db(db))
         .and_then(user_events)
@@ -71,7 +71,7 @@ pub fn event_get_by_user(
 pub fn event_update(
     db: impl DataManager,
 ) -> impl Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
-    warp::path!("api" / "v1" / "events" / String)
+    warp::path!("events")
         .and(warp::put())
         .and(warp::body::content_length_limit(BODY_SIZE))
         .and(warp::body::json())
