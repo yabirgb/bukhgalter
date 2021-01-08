@@ -1,5 +1,7 @@
 use warp::{http::StatusCode, Filter};
+use warp::http::header::{HeaderMap, HeaderValue};
 use serde::{Serialize};
+use serde_json::json;
 use crate::models::models::{Account};
 use std::convert::Infallible;
 use crate::models::{DataManager};
@@ -72,12 +74,27 @@ pub async fn create_event(create: CreateAccount, db: impl DataManager) -> Result
 
     db.store(acc.clone());
 
+    let uri = format!("/events/{}", acc.id);
+
+    let mut headers = HeaderMap::new();
+    headers.insert("Location", HeaderValue::from_str(&uri).unwrap());
+
+    let mut reply;// = warp::reply::with_status(warp::reply::json(&acc), StatusCode::CREATED);
+    let builder = warp::http::response::Builder::new();
+
+    reply = builder
+    .header("content-type", "application/json")
+    .header("Location", uri)
+    .status(StatusCode::CREATED)
+    .body(json!(&acc).to_string())
+    .unwrap();
     //.and(warp::reply::json(&acc)
-    Ok(warp::reply::with_status(warp::reply::json(&acc), StatusCode::CREATED))
+    Ok(reply)
 }
 
-pub async fn update_event(id: String, acc: CreateAccount, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
+pub async fn update_event(acc: CreateAccount, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
 
+    let id = acc.id.clone();
     match db.update_account(id, acc.clone()){
         Ok(a)=> Ok(warp::reply::with_status(warp::reply::json(&a), StatusCode::ACCEPTED)),
         Err(e) => Ok(warp::reply::with_status(warp::reply::json(&e), StatusCode::NOT_FOUND)),
