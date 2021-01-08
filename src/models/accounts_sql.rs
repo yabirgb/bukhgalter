@@ -6,7 +6,7 @@ use diesel::result::Error;
 use diesel::*;
 use crate::schema::{account, account::dsl::*};
 
-#[derive(Insertable)]
+#[derive(Insertable, AsChangeset)]
 #[table_name="accounts"]
 pub struct NewAccount{
     pub items: serde_json::Value,

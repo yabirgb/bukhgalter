@@ -94,7 +94,7 @@ async fn test_create_event(empty_memory_db: impl DataManager){
 
     let res = warp::test::request()
         .method("POST")
-        .path("/api/v1/events")
+        .path("/events")
         .header("content-type", "application/json")
         .body(&ACC1)
         .reply(&filter).await;
@@ -119,7 +119,7 @@ async fn test_create_event_bad_body(empty_memory_db: impl DataManager){
 
     let res = warp::test::request()
         .method("POST")
-        .path("/api/v1/events")
+        .path("/events")
         .header("content-type", "application/json")
         .body(&b)
         .reply(&filter).await;
@@ -134,7 +134,7 @@ async fn test_get_event(filled_memory_db: impl DataManager){
     let filter_get = filters::events::event_get(filled_memory_db);
 
     let res = warp::test::request()
-        .path("/api/v1/events/1231dfsf1").reply(&filter_get).await;
+        .path("/events/1231dfsf1").reply(&filter_get).await;
 
     let acc2: models::models::Account = serde_json::from_str(&ACC2).unwrap();
 
@@ -150,7 +150,7 @@ async fn test_get_event_not_in_db(filled_memory_db: impl DataManager){
     let filter_get = filters::events::event_get(filled_memory_db);
 
     let res = warp::test::request()
-        .path("/api/v1/events/1231dfsg1").reply(&filter_get).await;
+        .path("/events/1231dfsg1").reply(&filter_get).await;
 
     assert_eq!(res.status(), StatusCode::NOT_FOUND);
 }
@@ -174,7 +174,7 @@ async fn make_payment(filled_memory_db: impl DataManager){
 
     let res = warp::test::request()
     .method("PATCH")
-    .path("/api/v1/events/pay")
+    .path("/events/pay")
     .header("content-type", "application/json")
     .body(&payment)
     .reply(&filter).await;
@@ -208,7 +208,7 @@ async fn make_payment_user_not_found(filled_memory_db: impl DataManager){
 
     let res = warp::test::request()
     .method("PATCH")
-    .path("/api/v1/events/pay")
+    .path("/events/pay")
     .header("content-type", "application/json")
     .body(&payment)
     .reply(&filter).await;
@@ -235,7 +235,7 @@ async fn make_payment_account_not_found(filled_memory_db: impl DataManager){
 
     let res = warp::test::request()
     .method("PATCH")
-    .path("/api/v1/events/pay")
+    .path("/events/pay")
     .header("content-type", "application/json")
     .body(&payment)
     .reply(&filter).await;
@@ -252,7 +252,7 @@ async fn find_events(filled_memory_db: impl DataManager){
     let filter = filters::events::event_get_by_user(filled_memory_db);
 
     let res = warp::test::request()
-    .path("/api/v1/users/Gustavo")
+    .path("/users/Gustavo")
     .reply(&filter).await;
     
     // comprobamos que se busca bien
@@ -270,7 +270,7 @@ async fn find_events_not_in_db(filled_memory_db: impl DataManager){
     let filter = filters::events::event_get_by_user(filled_memory_db);
 
     let res = warp::test::request()
-    .path("/api/v1/users/T")
+    .path("/users/T")
     .reply(&filter).await;
     let acc2: Vec<models::models::Account> = serde_json::from_slice(res.body()).unwrap();
     // comprobamos que se busca bien
@@ -286,7 +286,7 @@ async fn test_update_event(filled_memory_db: impl DataManager){
 
     let res = warp::test::request()
         .method("PUT")
-        .path("/api/v1/events/1231dfsf2")
+        .path("/events/")
         .header("content-type", "application/json")
         .body(&ACC2)
         .reply(&filter).await;
@@ -307,7 +307,7 @@ async fn test_update_event_not_created(empty_memory_db: impl DataManager){
 
     let res = warp::test::request()
         .method("PUT")
-        .path("/api/v1/events/1231dfsf2")
+        .path("/events/1231dfsf2")
         .header("content-type", "application/json")
         .body(&ACC2)
         .reply(&filter).await;

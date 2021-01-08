@@ -6,6 +6,7 @@ pub struct CreateAccount{
     pub items: Vec<Item>,
     pub debtors: Vec<Debtor>,
     pub name: String,
+    pub id: String
 }
 
 #[derive(Serialize,Deserialize, Debug, Clone)]

@@ -20,6 +20,10 @@ pub enum AccountError {
     DebtorNotFound,
     #[error("Proportions don't sum one")]
     InvalidProportions,
+    #[error("Error searching account")]
+    AccountNotFound,
+    #[error("Error updating")]
+    UpdateError,
 }
 
 #[derive(Error, Debug, PartialEq, Serialize)]
@@ -30,6 +34,8 @@ pub enum DataError {
     NotFound,
     #[error("I never fail")]
     Infallible,
+    #[error("Error connecting to db")]
+    ConnectionError,
 }
 
 #[derive(Error, Debug, PartialEq, Serialize)]

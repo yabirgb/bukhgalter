@@ -4,6 +4,7 @@ use std::{sync::{Mutex,Arc}, env};
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
 use diesel::r2d2::{ConnectionManager, Pool, PooledConnection};
+use diesel::sql_query;
 
 use diesel::dsl::*;
 use crate::schema::accounts as schema_accounts;
@@ -203,11 +204,15 @@ impl DataManager for PGDataManager{
 
         match self.get_con(){
             Ok(conn) => {
-                match schema_accounts::dsl::accounts.filter(
-                            sql("debtors->>'name'? 'Gustavo'")
-                        ).load::<models::Account>(&conn) 
+                match schema_accounts::dsl::accounts.select(schema_accounts::all_columns).load::<models::Account>(&conn)
                     {
-                    Ok(acc) => {println!("Encontrado");return Ok(acc)},
+                    Ok(r) => {
+                        //for result in r{
+                         //   if result.contains_debtor(&user){
+                         //       valid.push(result.clone());
+                         //   }                        
+                        return Ok(r.into_iter().filter(|a| a.contains_debtor(&user)).collect::<Vec<models::Account>>())
+                    },
                     Err(e) => {println!("{:?}", e); return Err(errors::DataError::NotFound)}
                 }
             }
@@ -220,22 +225,36 @@ impl DataManager for PGDataManager{
 
     fn make_payment(&self, payment: &requests::Payment)->Result<models::Account, errors::AccountError>{
         
-        let mut account: Option<models::Account> = None;
-/*
-        self.with_lock(|accounts|{
-            for acc in accounts.iter_mut(){
-                if acc.id == payment.account_id{
-                    match acc.pay_by_debtor(payment.debtor.clone(), payment.amount.into()){
-                        Ok(_)  => {account = Some(acc.clone())},
-                        Err(_e) => {}
-                    }
+        match self.get_con(){
+            Ok(conn) => {
+
+                let mut acc:models::Account = match schema_accounts::dsl::accounts.find(payment.account_id.clone()).first(&conn){
+                    Ok(a) => a,
+                    Err(_) => {return Err(errors::AccountError::AccountNotFound)}
+                };
+
+                match acc.pay_by_debtor(payment.debtor.clone(), payment.amount.into()){
+                    Ok(_)  => {
+                        let updated = diesel::update(schema_accounts::dsl::accounts)
+                        .filter(schema_accounts::dsl::id.eq(payment.account_id.as_str()))
+                        .set((
+                            schema_accounts::dsl::items.eq(acc.items.clone()),
+                            schema_accounts::dsl::debtors.eq(acc.debtors.clone()),
+                        ))
+                        .execute(&conn);
+
+                        match updated {
+                            Ok(n) => return  Ok(acc),
+                            Err(_) => return Err(errors::AccountError::UpdateError)
+                        }
+
+                       
+                    },
+                    Err(_e) => return Err(errors::AccountError::UpdateError)
                 }
+                
             }
-        });
-*/
-        match account{
-            Some(x)=>Ok(x),
-            None =>Err(errors::AccountError::DebtorNotFound)
+            Err(_)=> return Err(errors::AccountError::DebtorNotFound)
         }
     }
 
@@ -243,19 +262,21 @@ impl DataManager for PGDataManager{
         
         let mut updated = false;
         let mut updated_account:Option<models::Account> = None;
-/*        self.with_lock(|accounts|{
-            for acc in accounts.iter_mut(){
-                if acc.id == id{
-                    acc.debtors = account.debtors;
-                    acc.items = account.items;
-                    acc.name = account.name;
-                    updated = true;
-                    updated_account = Some(acc.clone());
-                    break;
-                }
+        
+        match self.get_con(){
+            Ok(conn) => {
+
+                diesel::update(schema_accounts::dsl::accounts)
+                .filter(schema_accounts::dsl::id.eq(id.as_str()))
+                .set((
+                    schema_accounts::dsl::items.eq(account.items.clone()),
+                    schema_accounts::dsl::debtors.eq(account.debtors.clone()),
+                ))
+                .execute(&conn);
             }
-        });
-*/
+            Err(_e) => return Err(errors::DataError::ConnectionError)
+        }
+        
         if updated{
             Ok(updated_account.unwrap())
         }else{
