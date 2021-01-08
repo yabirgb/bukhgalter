@@ -1,0 +1,37 @@
+FROM rust:1.44.1 as builder
+LABEL version="1.0" maintainer="Yabir Garcia <yabirgb@gmail.com>" 
+
+# Creamos una libreria vacía y copiamos nuestros archivos de dependencias
+RUN USER=root cargo new --lib bukhgalter
+WORKDIR ./bukhgalter
+COPY ./Cargo.toml Makefile ./
+
+# Compilamos y Eliminamos los archivos del src
+RUN apt-get update && apt-get install make libpq-dev --no-install-recommends -y && cargo install diesel_cli --no-default-features --features postgres && make release && rm src/*.rs
+# Añadimos los archivos locales
+ADD . ./
+# Borramos los binarios generadors y Compilamos la aplicación en modo produción
+RUN rm ./target/release/deps/bukhgalter* && make release 
+
+# Para el segundo paso usamos una imagen de debian
+FROM debian:buster-slim as runner
+
+# Creamos un usuario y especificamos el lugar de la aplicacón
+ARG APP=/usr/src/app
+#EXPOSE 8000
+ENV APP_USER=debt_user \
+    mode=prod 
+RUN groupadd $APP_USER \
+    && useradd -g $APP_USER $APP_USER \
+    && mkdir -p ${APP} && chown -R $APP_USER:$APP_USER ${APP} \
+    && apt-get update && apt-get install make libpq-dev --no-install-recommends -y
+
+# Copiamos al nuevo contenedor el binario generado en el paso anterior
+COPY --from=builder /bukhgalter/target/release/bukhgalter ${APP}/bukhgalter
+COPY --from=builder /usr/local/cargo/bin/diesel ${APP}/diesel
+COPY --from=builder /bukhgalter/migrations/ ${APP}/migrations/
+# Cambiamos el usuario que los ejecuta
+USER $APP_USER
+WORKDIR ${APP}
+# Ejecutamos la aplicación
+CMD ["sh", "-c", "./diesel migration run && ./bukhgalter"]
