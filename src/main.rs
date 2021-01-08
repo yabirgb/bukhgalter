@@ -100,8 +100,8 @@ async fn main(){
                 pid: 0,
             };
 
-            let log_host = get_env_var("log_host".to_string()).await.unwrap();
-            let log_port = get_env_var("log_port".to_string()).await.unwrap();
+            let log_host = get_env_var_or_default("log_host".to_string(), "localhost".to_string()).await;
+            let log_port = get_env_var_or_default("log_port".to_string(), "10000".to_string()).await;
 
             //syslog::init(Facility::LOG_USER, LevelFilter::Debug, Some("bukhgalter"));
             match syslog::tcp(formatter, format!("{}:{}", log_host, log_port)){
