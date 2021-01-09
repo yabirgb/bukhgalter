@@ -1,11 +1,27 @@
 version: 2.1
 # Trabajos que se van a hacer
 jobs:
- build:
-  # Le decimos que utilizamos una maquina con linux
-   machine: true
-   steps:
-      # Hacemos checkout del repo
-      - checkout
-      # Ejercutamos el contenedor de docker
-      - run: docker run -t -v `pwd`:/test yabirgb/bukhgalter:latest
+   build:
+      jobs:
+         - testing:
+            branches:
+               ignore:
+                  - docs
+            steps:
+               # Hacemos checkout del repo
+               - checkout
+               # Ejercutamos el contenedor de docker
+               - run: docker run -t -v `pwd`:/test yabirgb/bukhgalter:latest
+         - deploy-dev:
+               machine: true
+               requires:
+                  - hold
+               steps:
+               - checkout
+               - run:
+                     name: Build and push Docker image to Heroku
+                     command: |
+                     sudo curl https://cli-assets.heroku.com/install.sh | sh
+                     HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
+                     HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a ${HEROKU_APP} web
+                     HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a ${HEROKU_APP} web
