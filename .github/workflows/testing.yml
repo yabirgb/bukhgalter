@@ -13,3 +13,21 @@ jobs:
       - name: Check out the repo
         run: docker run -t -v `pwd`:/test yabirgb/bukhgalter:latest
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    if: always()
+    steps:
+      - uses: actions/checkout@v2
+      - name: Identify user
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN }}
+        run: heroku container:login
+      - name: Build container and upload
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN }}
+        run: heroku container:push web -R -a ${{ secrets.HEROKU_APP }}
+      - name: Make releasse
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN }}
+        run: heroku container:release web -a ${{ secrets.HEROKU_APP }}
