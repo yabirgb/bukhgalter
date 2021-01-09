@@ -1,6 +1,9 @@
-on: push
+name: Testing and deploy
 
-name: Testing workflow
+on:
+  push:
+    branches: [master]
+
 env:
   TEST_CONTAINER: yabirgb/bukhgalter:latest
 
