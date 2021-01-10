@@ -17,7 +17,7 @@ thiserror = "1.0"
 libmath = "0.2.1"
 warp = "0.2.5"
 tokio = { version = "0.2", features = ["full"] }
-serde_derive = "1.0.117"
+#serde_derive = "1.0.117"
 serde_json = "1.0"
 serde = {version="1.0.117",  features = ["derive"]}
 async-std = { version = "1.5", features = ["attributes"] }
