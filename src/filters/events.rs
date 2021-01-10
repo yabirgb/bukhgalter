@@ -1,8 +1,6 @@
 use warp::{http::StatusCode, Filter};
-use crate::models::models::{Account};
 use std::convert::Infallible;
 use crate::models::{DataManager};
-use crate::models::requests::{Payment, CreateAccount};
 
 use crate::handlers::events::{make_payment, create_event, event_info, user_events, update_event};
 

@@ -3,10 +3,7 @@ use math::round;
 use serde::{Serialize, Deserialize};
 use super::errors;
 
-use diesel::deserialize::Queryable;
-use diesel::associations::Identifiable;
 use diesel::prelude::*;
-use crate::schema::accounts;
 
 const PRECISION: i8 = 2; // precision for the operations
 

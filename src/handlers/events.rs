@@ -1,11 +1,11 @@
-use warp::{http::StatusCode, Filter};
+use warp::http::StatusCode;
 use warp::http::header::{HeaderMap, HeaderValue};
 use serde::{Serialize};
 use serde_json::json;
 use crate::models::models::{Account};
 use std::convert::Infallible;
 use crate::models::{DataManager};
-use crate::models::requests::{Payment, CreateAccount};
+use crate::models::requests::{Payment, CreateAccount, UpdateAccount};
 
 extern crate rand;
 
@@ -79,7 +79,7 @@ pub async fn create_event(create: CreateAccount, db: impl DataManager) -> Result
     let mut headers = HeaderMap::new();
     headers.insert("Location", HeaderValue::from_str(&uri).unwrap());
 
-    let mut reply;// = warp::reply::with_status(warp::reply::json(&acc), StatusCode::CREATED);
+    let reply;// = warp::reply::with_status(warp::reply::json(&acc), StatusCode::CREATED);
     let builder = warp::http::response::Builder::new();
 
     reply = builder
@@ -92,7 +92,7 @@ pub async fn create_event(create: CreateAccount, db: impl DataManager) -> Result
     Ok(reply)
 }
 
-pub async fn update_event(acc: CreateAccount, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
+pub async fn update_event(acc: UpdateAccount, db: impl DataManager) -> Result<impl warp::Reply, Infallible>{
 
     let id = acc.id.clone();
     match db.update_account(id, acc.clone()){

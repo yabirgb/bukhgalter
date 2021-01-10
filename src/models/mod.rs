@@ -4,13 +4,9 @@ use std::{sync::{Mutex,Arc}, env};
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
 use diesel::r2d2::{ConnectionManager, Pool, PooledConnection};
-use diesel::sql_query;
 
 use diesel::dsl::*;
 use crate::schema::accounts as schema_accounts;
-
-use serde::{Serialize};
-use serde_json;
 
 pub mod models;
 pub mod errors;
@@ -24,7 +20,7 @@ pub trait DataManager: Send + Clone + 'static{
     fn get_by_id(&self, id: String) -> Result<models::Account, errors::DataError>;
     fn get_with_user(&self, user: String) -> Result<Vec<models::Account>, errors::DataError>;
     fn make_payment(&self, payment: &requests::Payment)->Result<models::Account, errors::AccountError>;
-    fn update_account(&self, id:String, acc: requests::CreateAccount)->Result<models::Account, errors::DataError>;
+    fn update_account(&self, id:String, acc: requests::UpdateAccount)->Result<models::Account, errors::DataError>;
 }
 
 pub type MemoryDb = Arc<Mutex<Vec<models::Account>>>;
@@ -110,7 +106,7 @@ impl DataManager for MemoryDataManager{
         }
     }
 
-    fn update_account(&self, id:String,  account: requests::CreateAccount)->Result<models::Account, errors::DataError>{
+    fn update_account(&self, id:String,  account: requests::UpdateAccount)->Result<models::Account, errors::DataError>{
         
         let mut updated = false;
         let mut updated_account:Option<models::Account> = None;
@@ -200,8 +196,6 @@ impl DataManager for PGDataManager{
     }
 
     fn get_with_user(&self, user: String)->Result<Vec<models::Account>, errors::DataError>{
-        let mut results: Vec<models::Account> = Vec::new();
-
         match self.get_con(){
             Ok(conn) => {
                 match schema_accounts::dsl::accounts.select(schema_accounts::all_columns).load::<models::Account>(&conn)
@@ -218,8 +212,6 @@ impl DataManager for PGDataManager{
             }
             Err(_)=> {println!("Error getting connection");return Err(errors::DataError::NotFound)}
         };
-
-        Ok(results)
         //return Err(errors::DataError::NotFound)
     }
 
@@ -244,7 +236,7 @@ impl DataManager for PGDataManager{
                         .execute(&conn);
 
                         match updated {
-                            Ok(n) => return  Ok(acc),
+                            Ok(_n) => return  Ok(acc),
                             Err(_) => return Err(errors::AccountError::UpdateError)
                         }
 
@@ -258,10 +250,10 @@ impl DataManager for PGDataManager{
         }
     }
 
-    fn update_account(&self, id:String,  account: requests::CreateAccount)->Result<models::Account, errors::DataError>{
+    fn update_account(&self, id:String,  account: requests::UpdateAccount)->Result<models::Account, errors::DataError>{
         
-        let mut updated = false;
-        let mut updated_account:Option<models::Account> = None;
+        let updated = false;
+        let updated_account:Option<models::Account> = None;
         
         match self.get_con(){
             Ok(conn) => {
@@ -273,6 +265,7 @@ impl DataManager for PGDataManager{
                     schema_accounts::dsl::debtors.eq(account.debtors.clone()),
                 ))
                 .execute(&conn);
+
             }
             Err(_e) => return Err(errors::DataError::ConnectionError)
         }

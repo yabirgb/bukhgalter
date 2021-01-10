@@ -1,7 +1,7 @@
 //use mongodb::{Client, options::ClientOptions};
 
-use std::{env, fmt, error};
-use std::net::{IpAddr, Ipv4Addr, SocketAddr};
+use std::{env};
+use std::net::{IpAddr};
 
 use warp::{Filter, http::Response};
 use etcd_client::{Client, Error};
