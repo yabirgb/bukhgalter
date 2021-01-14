@@ -4,3 +4,25 @@ test: tests/test_models.rs
 taskfile: Makefile
 URL: https://bukhgalter-collaborators.vercel.app/api/collaborators
 make: make
+PaaS: https://aqueous-shelf-06648.herokuapp.com/
+recurso:
+  nombre: Crear evento
+  metodo: POST
+  payload:
+    debtors:
+    - name: Alejandro
+      paid_amount: 0
+      fraction: 0.5
+      paid: false
+      id: '1'
+    - name: Gustavo
+      paid_amount: 0
+      fraction: 0.5
+      paid: false
+      id: ''
+    items:
+    - date: 23
+      price: 3.3
+      name: choco
+    name: Mercadona
+

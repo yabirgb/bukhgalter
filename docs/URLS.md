@@ -63,7 +63,7 @@ Cuenta que representa una asociación entre `items` y `debtors`
 
 1. Se necesita listar la información de un evento
 
-        GET /api/v1/events/{event_id}
+        GET /events/{event_id}
 
    Toma:
         
@@ -76,7 +76,7 @@ Cuenta que representa una asociación entre `items` y `debtors`
 
 1. Debe poder añadirse un deudor a una lista
 
-        PUT /api/v1/events/{event_id}
+        PUT /events/{event_id}
 
    Toma:
         
@@ -89,7 +89,7 @@ Cuenta que representa una asociación entre `items` y `debtors`
 
 1. Hacer un pago
 
-        PATCH /api/v1/events/pay
+        PATCH /events/pay
 
    Toma:
         
@@ -106,7 +106,7 @@ Cuenta que representa una asociación entre `items` y `debtors`
 
 1. Un usuario debe poder conseguir todos los eventos en los que participa
 
-        GET /api/v1/users/{user_id}
+        GET /users/{user_id}
 
    Toma:
         
