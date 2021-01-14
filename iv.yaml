@@ -6,7 +6,7 @@ URL: https://bukhgalter-collaborators.vercel.app/api/collaborators
 make: make
 PaaS: https://aqueous-shelf-06648.herokuapp.com/
 recurso:
-  nombre: Crear evento
+  nombre: /events/
   metodo: POST
   payload:
     debtors:

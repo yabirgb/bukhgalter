@@ -49,7 +49,7 @@ Cuenta que representa una asociación entre `items` y `debtors`
 
 1. Se necesitan crear eventos. 
 
-        POST /api/v1/events/create
+        POST /events/
 
 
    Toma:
