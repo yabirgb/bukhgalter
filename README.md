@@ -10,6 +10,10 @@ quieren ajustar la cuenta de cuanto debe cada persona. También sería interesan
 en el viaje conocer cuanto se va gastando y llevar una planificación del
 presupuesto disponible.
 
+## Despliegue
+
+Toda la información relativa al despliegue se encuentra en [PaaS](docs/paas.md)
+
 ## Microservicio
 
 La información relativa a la REST API que se expone se encuentra en la
