@@ -10,19 +10,19 @@ recurso:
   metodo: POST
   payload:
     debtors:
-    - name: Alejandro
-      paid_amount: 0
-      fraction: 0.5
-      paid: false
-      id: '1'
-    - name: Gustavo
-      paid_amount: 0
-      fraction: 0.5
-      paid: false
-      id: ''
+      - name: Alejandro
+        paid_amount: 0
+        fraction: 0.5
+        paid: false
+        id: '1'
+      - name: Gustavo
+        paid_amount: 0
+        fraction: 0.5
+        paid: false
+        id: '2'
     items:
-    - date: 23
-      price: 3.3
-      name: choco
+      - date: 23
+        price: 3.3
+        name: choco
     name: Mercadona
 
