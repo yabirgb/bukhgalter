@@ -25,7 +25,7 @@ pub async fn event_info(id: String, db: impl DataManager) -> Result<impl warp::R
         Ok(acc) => Ok(            
             warp::reply::with_status(
                 warp::reply::json(&acc),
-                StatusCode::CREATED
+                StatusCode::OK
             )
         ),
         Err(_e) =>  Ok(
